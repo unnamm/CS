@@ -3,10 +3,11 @@ namespace Lib.CS
 {
     internal class TaskProcess
     {
-        public void Run1() //use await
+        public void RunAwait() //use await
         {
             asyncFunc();
             asyncFunc2();
+            Console.WriteLine("running...");
         }
         private async void asyncFunc()
         {
@@ -27,7 +28,8 @@ namespace Lib.CS
 
         private Action _action;
 
-        public async void Run2() //TaskCompletionSource: wait return
+        //low importance
+        public async void RunTaskCompletionSource() //TaskCompletionSource: wait return
         {
             int value = await f(); //wait after setResult TaskCompletionSource
             //Console.WriteLine(value); print 1
@@ -46,7 +48,7 @@ namespace Lib.CS
             _action();
         }
 
-        public async void Run3() //task.when
+        public async void RunWhen() //task.when
         {
             var t1 = Task.Delay(1000);
             var t2 = f3();
@@ -66,48 +68,16 @@ namespace Lib.CS
             return 1;
         }
 
-        CancellationTokenSource _cts = new CancellationTokenSource();
-        public async void Run4() //use token
+        //low importance
+        public void RunWait()
         {
-            var token = _cts.Token;
-            cancel();
-            var res = await Task.Run(run, token);
-
-            if (res == null)
-            {
-                Console.WriteLine("cancel");
-            }
-            else
-            {
-                Console.WriteLine("sum: " + res);
-            }
-        }
-        private async Task<int?> run()
-        {
-            int sum = 0;
-            for (int i = 0; i < 15; i++)
-            {
-                if (_cts.Token.IsCancellationRequested) //if cancel
-                {
-                    return null;
-                }
-                sum += i;
-                await Task.Delay(100);
-            }
-            return sum;
-        }
-        private async void cancel()
-        {
-            await Task.Delay(1000);
-            _cts.Cancel();
-        }
-
-        public void Run5()
-        {
+            Console.WriteLine("1second");
             Task.Delay(1000).Wait(); // == Thread.Sleep(1000);
+            Console.WriteLine("end");
         }
 
-        public void Run6()
+        //low importance
+        public void RunResult()
         {
             var task = r6();
             //task.Wait(); //even if no use
@@ -117,6 +87,47 @@ namespace Lib.CS
         {
             await Task.Delay(1000);
             return 3;
+        }
+
+        //high importance
+        public async void RunCancel()
+        {
+            CancellationTokenSource cts = new();
+
+            Task.Run(async () =>
+            {
+                await Task.Delay(1000);
+                cts.Cancel();
+            }); //async cancel after 1second
+
+            try
+            {
+                await run7_1(cts.Token); //A task was canceled.
+                //await run7_2(cts.Token); //The operation was canceled.
+
+                while (true)
+                {
+                    await Task.Delay(1);
+                    cts.Token.ThrowIfCancellationRequested(); //The operation was canceled.
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        private async Task run7_1(CancellationToken token)
+        {
+            await Task.Delay(5000, token); //throw after 1second 
+            Console.WriteLine("play after 5second"); //no print
+        }
+        private async Task run7_2(CancellationToken token)
+        {
+            while (true)
+            {
+                await Task.Delay(1);
+                token.ThrowIfCancellationRequested();
+            }
         }
     }
 }
