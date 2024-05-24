@@ -1,4 +1,5 @@
 ﻿using Lib.CS;
+using Lib.Hosting;
 
 namespace Lib
 {
@@ -8,7 +9,8 @@ namespace Lib
     {
         public void Run()
         {
-            
+            var c = new DependencyInjectionProcess();
+            c.F7();
         }
     }
 }

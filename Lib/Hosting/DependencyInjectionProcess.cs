@@ -9,7 +9,7 @@ namespace Lib.Hosting
     /// </summary>
     internal class DependencyInjectionProcess
     {
-        public void F(string[] args) //try
+        public void F1(string[] args) //try
         {
             HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
             builder.Services.TryAddSingleton<IAlpha, A>();
@@ -84,6 +84,16 @@ namespace Lib.Hosting
             D d = host.Services.GetService<D>(); //System.InvalidOperationException
         }
 
+        public void F7() //circula dependency
+        {
+            HostApplicationBuilder builder = Host.CreateApplicationBuilder();
+            builder.Services.AddSingleton<F>();
+            builder.Services.AddSingleton<E>();
+
+            using IHost host = builder.Build();
+            F f = host.Services.GetService<F>(); //System.InvalidOperationException
+        }
+
         interface IAlpha
         {
             void Run();
@@ -117,6 +127,23 @@ namespace Lib.Hosting
             public D(C c) //auto injection
             {
                 data = c;
+            }
+        }
+
+        class E
+        {
+            public F _f;
+            public E(F f)
+            {
+                _f = f;
+            }
+        }
+        class F
+        {
+            public E _e;
+            public F(E e)
+            {
+                _e = e;
             }
         }
     }
