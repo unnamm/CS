@@ -1,5 +1,4 @@
-﻿using Lib.CS;
-using LibreHardwareMonitor.Hardware;
+﻿using LibreHardwareMonitor.Hardware;
 using System.Runtime.Versioning;
 using System.Text;
 

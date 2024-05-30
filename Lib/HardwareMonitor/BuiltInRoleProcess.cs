@@ -2,7 +2,7 @@
 using System.Runtime.Versioning;
 using System.Security.Principal;
 
-namespace Lib.CS
+namespace Lib.HardwareMonitor
 {
     [SupportedOSPlatform(WINDOWS)] //use windows os
     internal class BuiltInRoleProcess
