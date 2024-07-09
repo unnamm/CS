@@ -86,8 +86,8 @@ namespace Lib.CS
 
         public async void RunException()
         {
-            Task.Run(repeat2);
-            Task.Run(repeat2);
+            _ = Task.Run(repeat2);
+            _ = Task.Run(repeat2);
             await Task.Delay(1000);
             _mutex.ReleaseMutex(); //exception
             await Task.Delay(1000);
@@ -102,7 +102,6 @@ namespace Lib.CS
             }
         }
 
-
         public void RunLockStack()
         {
             Console.WriteLine("lock");
@@ -116,7 +115,6 @@ namespace Lib.CS
             Console.WriteLine("release"); //end
         }
     }
-
 
     internal class SemaphoreProcess
     {
@@ -176,6 +174,44 @@ namespace Lib.CS
 
             Thread.Sleep(1000);
             _semaphore.Release();
+        }
+    }
+
+    internal class MutexError
+    {
+        Mutex _mutex = new();
+
+        Semaphore _semaphore = new(1, 1);
+
+        public void Run()
+        {
+            Test();
+            Test(); //no wait, mutex no work, throw
+        }
+
+        public void Run2()
+        {
+            Test2();
+            Test2(); //wait, run after release
+        }
+
+        private async void Test()
+        {
+            Console.WriteLine("start wait");
+            _mutex.WaitOne();
+            Console.WriteLine("wait 1");
+            await Task.Delay(1000);
+            _mutex.ReleaseMutex();
+            Console.WriteLine("release");
+        }
+        private async void Test2()
+        {
+            Console.WriteLine("start wait");
+            _semaphore.WaitOne();
+            Console.WriteLine("wait 1");
+            await Task.Delay(1000);
+            _semaphore.Release();
+            Console.WriteLine("release");
         }
     }
 }
