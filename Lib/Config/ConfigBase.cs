@@ -14,10 +14,12 @@ namespace Lib.Config
 
         private string _iniFile;
 
-        public ConfigBase(string iniName)
+        public ConfigBase()
         {
+            string iniName = this.GetType().Name + ".ini"; //cs same ini name
+
             var slnPath = tryGetSolutionDirectory();
-            if (slnPath == null) //exe file
+            if (slnPath == null) //exe file in output folder
             {
                 _iniFile = Path.Combine("Config", iniName);
             }
@@ -75,6 +77,7 @@ namespace Lib.Config
             throw new Exception("parse error");
         }
 
+        //search sln path
         private static DirectoryInfo tryGetSolutionDirectory(string currentPath = null)
         {
             var directory = new DirectoryInfo(currentPath ?? Directory.GetCurrentDirectory());

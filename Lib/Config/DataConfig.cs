@@ -7,7 +7,7 @@ namespace Lib.Config
         public string ValueString;
         public bool ValueBool;
 
-        public DataConfig(string iniName) : base(iniName)
+        public DataConfig() : base()
         {
         }
 
@@ -24,7 +24,7 @@ namespace Lib.Config
 
         public static void Run()
         {
-            DataConfig dc = new DataConfig("DataConfig.ini");
+            DataConfig dc = new DataConfig();
             dc.Practice();
         }
     }
