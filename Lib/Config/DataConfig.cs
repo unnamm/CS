@@ -4,14 +4,10 @@ namespace Lib.Config
     internal class DataConfig : ConfigBase
     {
         public int ValueInt;
-        public string ValueString;
+        public string ValueString = string.Empty;
         public bool ValueBool;
 
-        public DataConfig() : base()
-        {
-        }
-
-        public void Practice()
+        public DataConfig()
         {
             base.get(ref ValueInt, "data1");
             base.get(ref ValueString, "data1");
@@ -25,7 +21,6 @@ namespace Lib.Config
         public static void Run()
         {
             DataConfig dc = new DataConfig();
-            dc.Practice();
         }
     }
 }

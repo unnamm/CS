@@ -12,7 +12,8 @@ namespace Lib.Config
         //[DllImport("kernel32.dll")]
         //private static extern bool WritePrivateProfileString(string section, string key, string value, string filePath);
 
-        private string _iniFile;
+        private readonly int _capacity;
+        private readonly string _iniFile;
 
         public ConfigBase()
         {
@@ -33,25 +34,35 @@ namespace Lib.Config
                 folder = folder.Replace(".", "\\");
 
                 //sln path \ ini folder \ ini file
-                _iniFile = Path.Combine(tryGetSolutionDirectory().ToString(), folder, iniName);
+                _iniFile = Path.Combine(slnPath.ToString(), folder, iniName);
             }
 
             if (File.Exists(_iniFile) == false)
             {
                 throw new FileLoadException();
             }
+
+            _capacity = File.ReadAllText(_iniFile).Length;
         }
 
         //key is T value's parameter name
         protected void get<T>(ref T value, string section, [CallerArgumentExpression("value")] string key = "")
         {
-            StringBuilder sb = new() { Capacity = 20 }; //string max length
-            GetPrivateProfileString(section, key, "0", sb, (uint)sb.Capacity, _iniFile);
+            StringBuilder sb = new() { Capacity = _capacity }; //string max length
+            _ = GetPrivateProfileString(section, key, "0", sb, (uint)sb.Capacity, _iniFile);
 
             if (typeof(T) == typeof(int))
             {
-                int result = 0;
-                if (int.TryParse(sb.ToString(), out result))
+                if (int.TryParse(sb.ToString(), out int result))
+                {
+                    value = (T)(object)result;
+                    return;
+                }
+            }
+
+            if (typeof(T) == typeof(double))
+            {
+                if (double.TryParse(sb.ToString(), out double result))
                 {
                     value = (T)(object)result;
                     return;
@@ -66,8 +77,7 @@ namespace Lib.Config
 
             if (typeof(T) == typeof(bool))
             {
-                bool result = false;
-                if (bool.TryParse(sb.ToString(), out result))
+                if (bool.TryParse(sb.ToString(), out bool result))
                 {
                     value = (T)(object)result;
                     return;
@@ -78,10 +88,10 @@ namespace Lib.Config
         }
 
         //search sln path
-        private static DirectoryInfo tryGetSolutionDirectory(string currentPath = null)
+        private static DirectoryInfo? tryGetSolutionDirectory(string currentPath = null)
         {
             var directory = new DirectoryInfo(currentPath ?? Directory.GetCurrentDirectory());
-            while (directory != null && !directory.GetFiles("*.sln").Any())
+            while (directory != null && directory.GetFiles("*.sln").Length == 0)
             {
                 directory = directory.Parent;
             }
