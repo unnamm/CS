@@ -1,5 +1,10 @@
-﻿using Lib.CS;
+﻿using Lib.Config;
+using Lib.CS;
 using Lib.Hosting;
+using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
+
+
 
 namespace Lib
 {
@@ -9,8 +14,8 @@ namespace Lib
     {
         public void Run()
         {
-            var c = new DependencyInjectionProcess();
-            c.F7();
+            DataConfig df = new();
+            
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-
+﻿
 namespace Lib.CS
 {
     internal class FileTxtProcess
