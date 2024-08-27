@@ -1,18 +1,14 @@
-﻿using Lib.Config;
-using Lib.CS;
-using Lib.Hosting;
-using System.Collections.Concurrent;
-using System.Runtime.CompilerServices;
+﻿using Lib.CS;
 
 namespace Lib
 {
-    //main run call public
+    //main run call
     //lib test run
     public class LibMain
     {
         public void Run()
         {
-            DataConfig df = new();
+            //hello world
             
         }
     }
