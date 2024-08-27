@@ -3,6 +3,9 @@ using System.Data.Common;
 
 namespace Lib.Sqlite
 {
+    /// <summary>
+    /// Microsoft.Data.Sqlite (8.0.8)
+    /// </summary>
     internal class SqliteProcess
     {
         private readonly SqliteConnection _connection;
