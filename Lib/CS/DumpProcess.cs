@@ -1,14 +1,14 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Lib.Dump
+namespace Lib.CS
 {
-    internal class Dump
+    internal class DumpProcess
     {
         public void Run() //use example
         {
             //need windows.Forms.Application
             //System.Windows.Windows.Forms.Application.ThreadException += new ThreadExceptionEventHandler(Dump.ExceptionDump);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(Dump.CurrentDomain_UnhandledException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
         }
 
         [Flags]
@@ -42,7 +42,7 @@ namespace Lib.Dump
         struct MiniDumpExceptionInformation
         {
             public uint ThreadId;
-            public IntPtr ExceptioonPointers;
+            public nint ExceptioonPointers;
             [MarshalAs(UnmanagedType.Bool)]
             public bool ClientPointers;
         }
@@ -54,25 +54,25 @@ namespace Lib.Dump
             ExactSpelling = true,
             SetLastError = true)]
         static extern bool MiniDumpWriteDump(
-            IntPtr hProcess,
+            nint hProcess,
             uint processId,
-            IntPtr hFile,
+            nint hFile,
             _MINIDUMP_TYPE dumpType,
             ref MiniDumpExceptionInformation expParam,
-            IntPtr userStreamParam,
-            IntPtr callbackParam);
+            nint userStreamParam,
+            nint callbackParam);
 
         [DllImport("kernel32.dll", EntryPoint = "GetCurrentThreadId", ExactSpelling = true)]
         static extern uint GetCurrentThreadId();
 
         [DllImport("kernel32.dll", EntryPoint = "GetCurrentProcess", ExactSpelling = true)]
-        static extern IntPtr GetCurrentProcess();
+        static extern nint GetCurrentProcess();
 
         [DllImport("kernel32.dll", EntryPoint = "GetCurrentProcessId", ExactSpelling = true)]
         static extern uint GetCurrentProcessId();
 
         [DllImport("kernel32.dll", EntryPoint = "TerminateProcess", ExactSpelling = true)]
-        static extern Int32 TerminateProcess(IntPtr hprocess, Int32 ExitCode);
+        static extern int TerminateProcess(nint hprocess, int ExitCode);
 
         public static void Install_self_mini_dump()
         {
@@ -80,14 +80,14 @@ namespace Lib.Dump
 
             exp.ThreadId = GetCurrentThreadId();
             exp.ClientPointers = false;
-            exp.ExceptioonPointers = System.Runtime.InteropServices.Marshal.GetExceptionPointers();
+            exp.ExceptioonPointers = Marshal.GetExceptionPointers();
 
             //file name
             string dt = DateTime.Now.ToString("yyyy.MM.dd.hh.mm.ss");
             string fileName = dt + ".dmp";
 
             //make
-            using (var fs = new System.IO.FileStream(fileName, System.IO.FileMode.Create, System.IO.FileAccess.Write, System.IO.FileShare.None))
+            using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 bool bRet = MiniDumpWriteDump(
                     GetCurrentProcess(),
@@ -96,8 +96,8 @@ namespace Lib.Dump
                     //include info
                     _MINIDUMP_TYPE.MiniDumpNormal,
                     ref exp,
-                    IntPtr.Zero,
-                    IntPtr.Zero);
+                    nint.Zero,
+                    nint.Zero);
             }
 
             //exit
@@ -107,13 +107,13 @@ namespace Lib.Dump
         //ui except
         public static void ExceptionDump(object sender, ThreadExceptionEventArgs args)
         {
-            Dump.Install_self_mini_dump();
+            Install_self_mini_dump();
         }
 
         //other except
         public static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            Dump.Install_self_mini_dump();
+            Install_self_mini_dump();
         }
     }
 }
