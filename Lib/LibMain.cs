@@ -2,13 +2,10 @@
 
 namespace Lib
 {
-    //main run call
-    //lib test run
     public class LibMain
     {
-        public void Run()
+        public void Run() //test run
         {
-            //hello world
             
         }
     }

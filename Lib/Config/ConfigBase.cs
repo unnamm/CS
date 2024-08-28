@@ -88,7 +88,7 @@ namespace Lib.Config
         }
 
         //search sln path
-        private static DirectoryInfo? tryGetSolutionDirectory(string currentPath = null)
+        private static DirectoryInfo? tryGetSolutionDirectory(string? currentPath = null)
         {
             var directory = new DirectoryInfo(currentPath ?? Directory.GetCurrentDirectory());
             while (directory != null && directory.GetFiles("*.sln").Length == 0)
