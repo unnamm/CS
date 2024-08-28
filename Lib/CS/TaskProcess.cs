@@ -89,12 +89,11 @@ namespace Lib.CS
             return 3;
         }
 
-        //high importance
         public async void RunCancel()
         {
             CancellationTokenSource cts = new();
 
-            Task.Run(async () =>
+            _ = Task.Run(async () =>
             {
                 await Task.Delay(1000);
                 cts.Cancel();

@@ -138,8 +138,8 @@ namespace Lib.CS
 
         public async void Run2()
         {
-            Task.Run(repeat2);
-            Task.Run(repeat2);
+            _ = Task.Run(repeat2);
+            _ = Task.Run(repeat2);
             await Task.Delay(1000);
             _semaphore.Release(); //available
             await Task.Delay(1000);
