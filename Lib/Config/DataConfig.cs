@@ -6,6 +6,7 @@ namespace Lib.Config
         public int ValueInt;
         public string ValueString = string.Empty;
         public bool ValueBool;
+        public string[] ValueArray = [];
 
         public DataConfig()
         {
@@ -16,6 +17,8 @@ namespace Lib.Config
             base.get(ref ValueInt, "data2");
             base.get(ref ValueString, "data2");
             base.get(ref ValueBool, "data2");
+
+            base.get(ref ValueArray, "data3");
         }
 
         public static void Run()

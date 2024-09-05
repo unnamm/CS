@@ -6,8 +6,30 @@ namespace Lib.Config
 {
     internal abstract class ConfigBase
     {
+        /// <summary>
+        /// read value
+        /// </summary>
+        /// <param name="section"></param>
+        /// <param name="key"></param>
+        /// <param name="defaultValue"></param>
+        /// <param name="returnedString"></param>
+        /// <param name="size">Capacity of StringBuilder</param>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         [DllImport("kernel32.dll")]
-        private static extern uint GetPrivateProfileString(string section, string key, string defaultValue, StringBuilder returnedString, uint size, string filePath);
+        private static extern uint GetPrivateProfileString(
+            string section, string key, string defaultValue, StringBuilder returnedString, uint size, string filePath);
+
+        /// <summary>
+        /// read value array
+        /// </summary>
+        /// <param name="IpAppName">read section</param>
+        /// <param name="IpPairValues">receive values array</param>
+        /// <param name="nSize">Length of IpPairValues</param>
+        /// <param name="IpFileName"></param>
+        /// <returns></returns>
+        [DllImport("kernel32.dll")]
+        private static extern uint GetPrivateProfileSection(string IpAppName, byte[] IpPairValues, uint nSize, string IpFileName);
 
         //[DllImport("kernel32.dll")]
         //private static extern bool WritePrivateProfileString(string section, string key, string value, string filePath);
@@ -48,6 +70,21 @@ namespace Lib.Config
         //key is T value's parameter name
         protected void get<T>(ref T value, string section, [CallerArgumentExpression("value")] string key = "")
         {
+            if (typeof(T) == typeof(string[]))
+            {
+                var buffer = new byte[_capacity];
+                var length = GetPrivateProfileSection(section, buffer, (uint)buffer.Length, _iniFile);
+
+                var reads = new byte[length];
+                Array.Copy(buffer, reads, reads.Length);
+
+                var datas = Encoding.UTF8.GetString(reads).Split('\0');
+                Array.Resize(ref datas, datas.Length - 1);
+
+                value = (T)(object)datas;
+                return;
+            }
+
             StringBuilder sb = new() { Capacity = _capacity }; //string max length
             _ = GetPrivateProfileString(section, key, "0", sb, (uint)sb.Capacity, _iniFile);
 
