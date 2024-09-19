@@ -8,11 +8,19 @@ namespace Lib.CS
 {
     internal class CSVProcess
     {
-        public static void Make(string filePath, string[][] datas)
-        {
-            File.WriteAllLines(filePath, datas.Select(x => string.Join(',', x)));
-        }
+        /// <summary>
+        /// create new file
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="datas">row array</param>
+        public static void Make(string filePath, string[][] datas) => File.WriteAllLines(filePath, datas.Select(x => string.Join(',', x)));
 
+        /// <summary>
+        /// get read all rows
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public static string[][] GetRows(string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath))
@@ -23,7 +31,7 @@ namespace Lib.CS
 
             while (!sr.EndOfStream)
             {
-                var line = sr.ReadLine() ?? throw new Exception("csv line error");
+                var line = sr.ReadLine() ?? throw new Exception("line null error");
                 list.Add(line.Split(','));
             }
 
@@ -33,7 +41,7 @@ namespace Lib.CS
         public static void Example()
         {
             const string filePath = @"D:/temp.csv";
-            CSVProcess.Make(filePath, [["col1", "col2"], ["data1", "data2"]]);
+            CSVProcess.Make(filePath, [["name", "value", "type"], ["name1", "value1", "type1"], ["name2", "value2", "type2"]]);
             var rowData = CSVProcess.GetRows(filePath);
         }
     }
