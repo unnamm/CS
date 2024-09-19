@@ -9,7 +9,7 @@ namespace Lib
     {
         public void Run() //test run
         {
-            var v = BuildTimeProcess.GetBuildTime();
+            ArrayProcess.Select2();
         }
     }
 }

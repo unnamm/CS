@@ -3,7 +3,7 @@ namespace Lib.CS
 {
     internal class ArrayProcess
     {
-        public void Select()
+        public static void Select()
         {
             var arr = new int[] { 100, 200, 300 };
 
@@ -11,21 +11,16 @@ namespace Lib.CS
             IEnumerable<int> v2 = arr.Select((x, i) => x + i); //{100, 201, 302}, i: 0,1,2,...
         }
 
-        private class Temp
+        public static void Select2()
         {
-            public int F()
-            {
-                int data = 1;
-                Console.WriteLine(data);
-                return data;
-            }
-        }
+            var arr = new int[] { 1, 2, 3, 4, 5 };
+            var list = new List<int>();
 
-        public void Select2()
-        {
-            Temp[] values = new[] { new Temp(), new Temp() };
-            var v = values.Select(x => x.F()); //{1, 1}; //no run Console.WriteLine
-            values.Select(x => x.F()).ToArray(); // {1, 1}; // run Console.WriteLine
+            _ = arr.Select(x => { list.Add(x); return x; }); //no run ramda inner
+            var count1 = list.Count(); //count is 0
+
+            _ = arr.Select(x => { list.Add(x); return x; }).ToArray(); //run inner
+            var count2 = list.Count(); //count is arr length
         }
 
         public void Join()
