@@ -5,10 +5,14 @@ namespace Lib.CS
 {
     internal class JsonProcess
     {
-        //file path: bin\Debug\net8.0\FILE_NAME
-        public const string FILE_NAME = "data.json";
-
-        public void MakeJson<T>(string path, T data)
+        /// <summary>
+        /// write json
+        /// </summary>
+        /// <typeparam name="T">Data class</typeparam>
+        /// <param name="path">file path</param>
+        /// <param name="data"></param>
+        /// <exception cref="Exception"></exception>
+        public static void MakeJson<T>(string path, IEnumerable<T> data)
         {
             if (!path.Contains(".json"))
             {
@@ -20,6 +24,7 @@ namespace Lib.CS
             options.Converters.Add(new JsonStringEnumConverter()); //enum -> string
 
             string jsonString;
+
             try
             {
                 jsonString = JsonSerializer.Serialize(data, options);
@@ -32,7 +37,14 @@ namespace Lib.CS
             File.WriteAllText(path, jsonString);
         }
 
-        public T[] GetDatasFromJson<T>(string jsonPath)
+        /// <summary>
+        /// read json
+        /// </summary>
+        /// <typeparam name="T">data class</typeparam>
+        /// <param name="jsonPath"></param>
+        /// <returns>data class array</returns>
+        /// <exception cref="Exception"></exception>
+        public static T[] GetDatasFromJson<T>(string jsonPath)
         {
             var str = File.ReadAllText(jsonPath);
 
@@ -42,15 +54,12 @@ namespace Lib.CS
             List<T> deSerial;
             try
             {
-                deSerial = JsonSerializer.Deserialize<List<T>>(str, options);
+                deSerial = (JsonSerializer.Deserialize<List<T>>(str, options)) ?? throw new Exception("Deserialize null");
             }
             catch (Exception e)
             {
                 throw new Exception("deserialize error", e);
             }
-
-            if (deSerial == null)
-                throw new Exception("return list is null");
 
             return deSerial.ToArray();
         }
@@ -66,11 +75,14 @@ namespace Lib.CS
         public class JsonData
         {
             public int DataInt { get; set; }
-            public string DataString { get; set; }
+            public string DataString { get; set; } = string.Empty;
             public JsonEnum DataEnum { get; set; }
         }
 
-        public void MakeTest()
+        //file path: bin\Debug\net8.0\FILE_NAME
+        public const string FILE_NAME = "data.json";
+
+        public static void MakeTest()
         {
             List<JsonData> dataList = new List<JsonData>()
             {
@@ -80,10 +92,9 @@ namespace Lib.CS
             };
 
             MakeJson(FILE_NAME, dataList);
-            Console.WriteLine("make");
         }
 
-        public void ReadTest()
+        public static void ReadTest()
         {
             JsonData[] dataArray = GetDatasFromJson<JsonData>(FILE_NAME);
         }

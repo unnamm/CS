@@ -9,7 +9,7 @@ namespace Lib
     {
         public void Run() //test run
         {
-            ArrayProcess.Select2();
+            JsonProcess.MakeTest();
         }
     }
 }
