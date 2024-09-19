@@ -3,16 +3,39 @@ namespace Lib.CS
 {
     internal class FileTxtProcess
     {
-        public void AddTextAndCreate(string file, string add)
+        public static string ReadText(string file)
         {
-            if (File.Exists(file) == false)
+            if (file.Contains(".txt") == false)
             {
-                var v = File.Create(file);
-                v.Dispose(); //file.create is filestream. need dispose
+                throw new Exception();
             }
 
-            var read = File.ReadAllText(file);
-            File.WriteAllText(file, read + add); //auto enter line
+            if (File.Exists(file) == false)
+            {
+                return string.Empty;
+            }
+
+            return File.ReadAllText(file);
+        }
+
+        public static void WriteText(string file, string text)
+        {
+            if (file.Contains(".txt") == false)
+            {
+                throw new Exception();
+            }
+
+            File.WriteAllText(file, text); //if empty, auto make
+        }
+
+        public static void AppendText(string file, string text)
+        {
+            if (file.Contains(".txt") == false)
+            {
+                throw new Exception();
+            }
+
+            File.AppendAllText(file, text); //auto make
         }
     }
 }
