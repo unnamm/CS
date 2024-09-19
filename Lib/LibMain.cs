@@ -9,7 +9,7 @@ namespace Lib
     {
         public void Run() //test run
         {
-            DependencyInjectionProcess.Run();
+            var v = BuildTimeProcess.GetBuildTime();
         }
     }
 }
