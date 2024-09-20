@@ -4,31 +4,24 @@ namespace Lib.CS
 {
     internal class ProcessProcess
     {
-        public void Run()
+        public static async void RunAsync(string filePath, int timeout)
         {
-            const string FOLDER = @"D:\Folder";
-            const string FILE = "ExeFile.exe";
+            if (filePath.Contains(".exe") == false)
+            {
+                throw new Exception("run exe file");
+            }
 
-            //run(FOLDER, FILE);
-            runAsync(FOLDER, FILE, 5000);
-        }
-
-        private void run(string folder, string file)
-        {
             ProcessStartInfo psi = new()
             {
-                FileName = Path.Combine(folder, file),
-                WorkingDirectory = folder, //new process set path
+                FileName = filePath,
+                WorkingDirectory = Path.GetDirectoryName(filePath), //new process set path
             };
-            var pro = Process.Start(psi);
-            pro.WaitForInputIdle(); //wait process open
-        }
 
-        private async void runAsync(string folder, string file, int timeout)
-        {
+            var pro = Process.Start(psi) ?? throw new ArgumentNullException("process null");
+
             var task = Task.Run(() =>
             {
-                run(folder, file);
+                pro.WaitForInputIdle(); //wait process open
             });
 
             var end = await Task.WhenAny(task, Task.Delay(timeout));
@@ -38,7 +31,11 @@ namespace Lib.CS
                 throw new TimeoutException();
             }
 
-            //run after open
+            Console.WriteLine("open complete");
+
+            await pro.WaitForExitAsync(); //wait when exit process
+
+            Console.WriteLine("exit event");
         }
     }
 }

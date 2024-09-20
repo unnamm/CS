@@ -9,7 +9,7 @@ namespace Lib
     {
         public void Run() //test run
         {
-            JsonProcess.MakeTest();
+            ProcessProcess.RunAsync(@"F:\hercules_3-2-8.exe", 1000);
         }
     }
 }
