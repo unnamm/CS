@@ -6,7 +6,8 @@ namespace Lib.CS
     {
         public void F()
         {
-            var str = Console.ReadLine();
+            var str = Console.ReadLine() ?? throw new NullReferenceException();
+
             var r = new Regex(@"\s");
 
             if (r.IsMatch(str))

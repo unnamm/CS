@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Lib.DDos
 {
     /// <summary>
-    /// if you know ip, you can send big data
+    /// if know ip, can send big data
     /// this is maybe legel problem
     /// only use study
     /// </summary>
@@ -22,7 +22,7 @@ namespace Lib.DDos
         /// <param name="ip">target</param>
         /// <param name="startPort">search start port</param>
         /// <param name="timeout">wait connect time</param>
-        public async void StartAsync(string ip, int startPort = 0, int timeout = 500)
+        public async void StartAsync(string ip, int startPort = 1, int timeout = 500)
         {
             AutoSend(1024 * 1024 * 1024); //send 1GB per 1second every port is connected
 
@@ -39,7 +39,7 @@ namespace Lib.DDos
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message + " " + port);
+                        Console.WriteLine(ex.Message + ", port: " + port);
                     }
                 }
             }

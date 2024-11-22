@@ -1,15 +1,11 @@
-﻿using Lib.Config;
-using Lib.CS;
-using Lib.Hosting;
-using System.Reflection;
-
+﻿
 namespace Lib
 {
     public class LibMain
     {
         public void Run() //test run
         {
-
+            var str = Console.ReadLine() ?? throw new NullReferenceException();
         }
     }
 }
