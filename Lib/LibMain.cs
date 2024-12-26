@@ -1,14 +1,16 @@
-﻿
-using Lib.Yaml;
+﻿using Lib.CS;
 
 namespace Lib
 {
     public class LibMain
     {
-        public void Run() //test run
+        /// <summary>
+        /// main call run()
+        /// </summary>
+        public async void Run()
         {
-            YamlProcess.Create();
-            YamlProcess.Read();
+            await CustomTaskProcess.Delay(100);
+            Console.WriteLine("end");
         }
     }
 }
