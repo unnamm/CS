@@ -1,7 +1,5 @@
 ﻿using Lib.CS;
-using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Lib
 {
