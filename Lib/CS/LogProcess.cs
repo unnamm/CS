@@ -7,7 +7,8 @@ namespace Lib.CS
         public ObservableCollection<string> LogList { get; set; } = []; //print other list
         private int _maxLine; //print list max line
         private string _fileName = string.Empty;
-        private string _folderName = string.Empty;
+        private string _folderPath = string.Empty;
+        private DateTime _currentTime;
 
         /// <summary>
         /// make folder, set folder path
@@ -16,21 +17,22 @@ namespace Lib.CS
         /// <param name="maxLine">LogList max count</param>
         public void Initialize(string folderPath, int maxLine = 100)
         {
-            _folderName = folderPath;
             _maxLine = maxLine;
+            _folderPath = folderPath;
+            _currentTime = DateTime.Now;
 
-            if (Directory.Exists(_folderName) == false)
+            if (Directory.Exists(folderPath) == false)
             {
-                Directory.CreateDirectory(_folderName);
+                Directory.CreateDirectory(folderPath);
             }
 
             if (folderPath.Contains(':')) //folder full path
             {
-                _fileName = Path.Combine(_folderName, DateTime.Now.ToString("yyyy-MM-dd") + ".txt");
+                _fileName = Path.Combine(folderPath, _currentTime.ToString("yyyy-MM-dd") + ".txt");
             }
             else //current run folder
             {
-                _fileName = Path.Combine(Directory.GetCurrentDirectory(), _folderName, DateTime.Now.ToString("yyyy-MM-dd") + ".txt");
+                _fileName = Path.Combine(Directory.GetCurrentDirectory(), folderPath, _currentTime.ToString("yyyy-MM-dd") + ".txt");
             }
         }
 
@@ -40,6 +42,11 @@ namespace Lib.CS
         /// <param name="message"></param>
         public void Write(string message)
         {
+            if (_currentTime.Day != DateTime.Now.Day) //check next day
+            {
+                Initialize(_folderPath, _maxLine);
+            }
+
             var mes = $"[{DateTime.Now:HH:mm:ss.f}]: {message}";
             LogList.Insert(0, mes); //insert first
 
