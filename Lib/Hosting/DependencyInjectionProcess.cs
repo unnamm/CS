@@ -4,7 +4,7 @@ using Microsoft.Extensions.Hosting;
 namespace Lib.Hosting
 {
     /// <summary>
-    /// Microsoft.Extensions.Hosting (8.0.0)
+    /// Microsoft.Extensions.Hosting
     /// </summary>
     internal class DependencyInjectionProcess
     {

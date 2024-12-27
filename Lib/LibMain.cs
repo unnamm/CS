@@ -1,4 +1,7 @@
 ﻿using Lib.CS;
+using Microsoft.Extensions.Hosting;
+using System.Diagnostics;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Lib
 {
@@ -7,10 +10,14 @@ namespace Lib
         /// <summary>
         /// main call run()
         /// </summary>
-        public async void Run()
+        public void Run()
         {
-            await CustomTaskProcess.Delay(100);
-            Console.WriteLine("end");
+            LogProcess log = new();
+            log.Initialize(@"D:\Folder");
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            log.Write("aaaaaaa");
+            Console.WriteLine(stopwatch);
         }
+
     }
 }
