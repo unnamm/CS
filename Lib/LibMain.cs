@@ -1,4 +1,5 @@
 ﻿using Lib.CS;
+using Lib.Other;
 
 namespace Lib
 {
@@ -9,7 +10,17 @@ namespace Lib
     {
         public void Run()
         {
-            
+            StarForce sf = new();
+
+            int sum = 0;
+            int count = 10000;
+
+            for (int i = 0; i < count; i++)
+            {
+                sum += sf.Run(22, true);
+            }
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine((double)sum / count);
         }
     }
 }
