@@ -1,21 +1,17 @@
 ﻿using Lib.CS;
-using System.Diagnostics;
+using Lib.Other;
 
 namespace Lib
 {
+    /// <summary>
+    /// main call Run()
+    /// </summary>
     public class LibMain
     {
-        /// <summary>
-        /// main call run()
-        /// </summary>
         public void Run()
         {
-            LogProcess log = new();
-            log.Initialize(@"D:\Folder");
-            Stopwatch stopwatch = Stopwatch.StartNew();
-            log.Write("aaaaaaa");
-            Console.WriteLine(stopwatch);
+            StarForce sf = new();
+            sf.Run(24);
         }
-
     }
 }
