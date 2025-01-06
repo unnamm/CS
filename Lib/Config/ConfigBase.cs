@@ -9,66 +9,76 @@ namespace Lib.Config
         /// <summary>
         /// read value
         /// </summary>
-        /// <param name="section"></param>
-        /// <param name="key"></param>
-        /// <param name="defaultValue"></param>
-        /// <param name="returnedString"></param>
-        /// <param name="size">Capacity of StringBuilder</param>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
         [DllImport("kernel32.dll")]
         private static extern uint GetPrivateProfileString(
             string section, string key, string defaultValue, StringBuilder returnedString, uint size, string filePath);
 
         /// <summary>
-        /// read value array
+        /// read array
         /// </summary>
-        /// <param name="IpAppName">read section</param>
-        /// <param name="IpPairValues">receive values array</param>
-        /// <param name="nSize">Length of IpPairValues</param>
-        /// <param name="IpFileName"></param>
-        /// <returns></returns>
         [DllImport("kernel32.dll")]
         private static extern uint GetPrivateProfileSection(string IpAppName, byte[] IpPairValues, uint nSize, string IpFileName);
 
-        //[DllImport("kernel32.dll")]
-        //private static extern bool WritePrivateProfileString(string section, string key, string value, string filePath);
+        /// <summary>
+        /// write value
+        /// </summary>
+        [DllImport("kernel32.dll")]
+        private static extern bool WritePrivateProfileString(string section, string key, string value, string filePath);
+
+        /// <summary>
+        /// write array
+        /// </summary>
+        [DllImport("kernel32.dll")]
+        private static extern bool WritePrivateProfileSection(string lpAppName, string lpString, string lpFileName);
 
         private readonly int _capacity;
         private readonly string _iniFile;
 
-        public ConfigBase()
+        public ConfigBase(string filePath = "")
         {
-            string iniName = this.GetType().Name + ".ini"; //cs same ini name
-
-            var slnPath = tryGetSolutionDirectory();
-            if (slnPath == null) //exe file in output folder
+            if (string.IsNullOrEmpty(filePath))
             {
+                string iniName = this.GetType().Name + ".ini"; //cs same ini name
                 _iniFile = Path.Combine("Config", iniName);
             }
-            else //edit visual studio
+            else
             {
-                var folder = this.GetType().Namespace;
-                if (folder == null)
+                if (filePath.Contains(".ini") == false)
                 {
-                    throw new Exception("no namespace");
+                    throw new Exception("need .ini");
                 }
-                folder = folder.Replace(".", "\\");
 
-                //sln path \ ini folder \ ini file
-                _iniFile = Path.Combine(slnPath.ToString(), folder, iniName);
+                _iniFile = filePath;
             }
+
+            //var slnPath = tryGetSolutionDirectory();
+            //if (slnPath == null) //exe file in output folder
+            //{
+            //    _iniFile = Path.Combine("Config", iniName);
+            //}
+            //else //edit visual studio
+            //{
+            //    var folder = this.GetType().Namespace;
+            //    if (folder == null)
+            //    {
+            //        throw new Exception("no namespace");
+            //    }
+            //    folder = folder.Replace(".", "\\");
+
+            //    //sln path \ ini folder \ ini file
+            //    _iniFile = Path.Combine(slnPath.ToString(), folder, iniName);
+            //}
 
             if (File.Exists(_iniFile) == false)
             {
-                throw new FileLoadException();
+                throw new FileLoadException("file is not exist");
             }
 
             _capacity = File.ReadAllText(_iniFile).Length;
         }
 
         //key is T value's parameter name
-        protected void get<T>(ref T value, string section, [CallerArgumentExpression("value")] string key = "")
+        protected void Get<T>(ref T value, string section, [CallerArgumentExpression("value")] string key = "")
         {
             if (typeof(T) == typeof(string[]))
             {
@@ -121,24 +131,39 @@ namespace Lib.Config
                 }
             }
 
-            throw new Exception("parse error");
+            throw new NotImplementedException("other parse");
+        }
+
+        protected void Set<T>(T value, string section, [CallerArgumentExpression("value")] string key = "")
+        {
+            if (value == null)
+            {
+                throw new NullReferenceException("value is null");
+            }
+
+            if (value is System.Collections.IEnumerable)
+            {
+                throw new NotImplementedException("write array not implement");
+            }
+
+            WritePrivateProfileString(section, key, value.ToString()!, _iniFile);
         }
 
         //search sln path
-        private static DirectoryInfo? tryGetSolutionDirectory(string? currentPath = null)
-        {
-            var directory = new DirectoryInfo(currentPath ?? Directory.GetCurrentDirectory());
-            while (directory != null && directory.GetFiles("*.sln").Length == 0)
-            {
-                directory = directory.Parent;
-            }
+        //private static DirectoryInfo? tryGetSolutionDirectory(string? currentPath = null)
+        //{
+        //    var directory = new DirectoryInfo(currentPath ?? Directory.GetCurrentDirectory());
+        //    while (directory != null && directory.GetFiles("*.sln").Length == 0)
+        //    {
+        //        directory = directory.Parent;
+        //    }
 
-            if (directory == null)
-            {
-                return null;
-            }
+        //    if (directory == null)
+        //    {
+        //        return null;
+        //    }
 
-            return directory;
-        }
+        //    return directory;
+        //}
     }
 }

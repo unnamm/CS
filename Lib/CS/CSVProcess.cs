@@ -13,7 +13,8 @@ namespace Lib.CS
         /// </summary>
         /// <param name="filePath"></param>
         /// <param name="datas">row array</param>
-        public static void Make(string filePath, string[][] datas) => File.WriteAllLines(filePath, datas.Select(x => string.Join(',', x)));
+        public static void Make(string filePath, string[][] datas) => 
+            File.WriteAllLines(filePath, datas.Select(x => string.Join(',', x)));
 
         /// <summary>
         /// get read all rows

@@ -1,9 +1,0 @@
-Offline Add Nuget Package
-
-1. Option - Nuget Package Manager - Package Source
-2. Click '+'
-3. Set Source Path
-4. *.nupkg file input in Path
-5. Show Nuget Package Manager
-6. Package Source: nuget.org
-7. Search nuget name

@@ -1,5 +1,4 @@
 ﻿using Lib.CS;
-using Lib.Other;
 
 namespace Lib
 {
@@ -10,8 +9,7 @@ namespace Lib
     {
         public void Run()
         {
-            StarForce sf = new();
-            sf.Run(24);
+            
         }
     }
 }
