@@ -2,6 +2,21 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
+//if you use C# 10 under, how to use CallerArgumentExpressionAttribute
+//namespace System.Runtime.CompilerServices
+//{
+//    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
+//    internal sealed class CallerArgumentExpressionAttribute : Attribute
+//    {
+//        public CallerArgumentExpressionAttribute(string parameterName)
+//        {
+//            ParameterName = parameterName;
+//        }
+
+//        public string ParameterName { get; }
+//    }
+//}
+
 namespace Lib.Config
 {
     internal abstract class ConfigBase
@@ -51,24 +66,6 @@ namespace Lib.Config
                 _iniFile = filePath;
             }
 
-            //var slnPath = tryGetSolutionDirectory();
-            //if (slnPath == null) //exe file in output folder
-            //{
-            //    _iniFile = Path.Combine("Config", iniName);
-            //}
-            //else //edit visual studio
-            //{
-            //    var folder = this.GetType().Namespace;
-            //    if (folder == null)
-            //    {
-            //        throw new Exception("no namespace");
-            //    }
-            //    folder = folder.Replace(".", "\\");
-
-            //    //sln path \ ini folder \ ini file
-            //    _iniFile = Path.Combine(slnPath.ToString(), folder, iniName);
-            //}
-
             if (File.Exists(_iniFile) == false)
             {
                 throw new FileLoadException("file is not exist");
@@ -77,7 +74,14 @@ namespace Lib.Config
             _capacity = File.ReadAllText(_iniFile).Length;
         }
 
-        //key is T value's parameter name
+        /// <summary>
+        /// read options in file
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value">set value</param>
+        /// <param name="section"></param>
+        /// <param name="key">value param name</param>
+        /// <exception cref="NotImplementedException"></exception>
         protected void Get<T>(ref T value, string section, [CallerArgumentExpression("value")] string key = "")
         {
             if (typeof(T) == typeof(string[]))
@@ -134,36 +138,28 @@ namespace Lib.Config
             throw new NotImplementedException("other parse");
         }
 
+        /// <summary>
+        /// write options in file
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value">save param</param>
+        /// <param name="section"></param>
+        /// <param name="key"></param>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="NotImplementedException"></exception>
         protected void Set<T>(T value, string section, [CallerArgumentExpression("value")] string key = "")
         {
             if (value == null)
             {
-                throw new NullReferenceException("value is null");
+                throw new NullReferenceException();
             }
 
             if (value is System.Collections.IEnumerable)
             {
-                throw new NotImplementedException("write array not implement");
+                throw new NotImplementedException("array not implement");
             }
 
             WritePrivateProfileString(section, key, value.ToString()!, _iniFile);
         }
-
-        //search sln path
-        //private static DirectoryInfo? tryGetSolutionDirectory(string? currentPath = null)
-        //{
-        //    var directory = new DirectoryInfo(currentPath ?? Directory.GetCurrentDirectory());
-        //    while (directory != null && directory.GetFiles("*.sln").Length == 0)
-        //    {
-        //        directory = directory.Parent;
-        //    }
-
-        //    if (directory == null)
-        //    {
-        //        return null;
-        //    }
-
-        //    return directory;
-        //}
     }
 }
