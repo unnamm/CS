@@ -1,5 +1,6 @@
 ﻿using Lib.CS;
 using Lib.Other;
+using System.Diagnostics;
 
 namespace Lib
 {
@@ -10,17 +11,23 @@ namespace Lib
     {
         public void Run()
         {
-            StarForce sf = new();
+            var v = Test.Instance;
+        }
 
-            int sum = 0;
-            int count = 10000;
+        class Test
+        {
+            private static readonly Lazy<Test> _lazy = new Lazy<Test>(System.Threading.LazyThreadSafetyMode.ExecutionAndPublication);
 
-            for (int i = 0; i < count; i++)
+            public static Test Instance => _lazy.Value;
+
+            private string data = null;
+
+            public Test()
             {
-                sum += sf.Run(22, true);
+                data = "aaaaa";
             }
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine((double)sum / count);
         }
     }
+
+
 }
