@@ -8,14 +8,11 @@ using System.Threading.Tasks;
 namespace Lib.CS
 {
     /// <summary>
-    /// 
-    /// add project
-    /// 
+    /// need to add project
     /// <PropertyGroup>
     ///     <AssemblyVersion>1.0.*</AssemblyVersion>
 	///     <Deterministic>false</Deterministic>
     /// </PropertyGroup>
-    /// 
     /// </summary>
     internal class BuildTimeProcess
     {

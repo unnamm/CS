@@ -4,7 +4,7 @@ namespace Lib.CS
 {
     internal class LogProcess
     {
-        public ObservableCollection<string> LogList { get; set; } = []; //print other list
+        public ObservableCollection<string> LogList { get; set; } = []; //print list ui
         private int _maxLine; //print list max line
         private string _fileName = string.Empty;
         private string _folderPath = string.Empty;
