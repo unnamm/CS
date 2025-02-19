@@ -13,6 +13,7 @@ namespace Lib.Other
     {
         private int _current;
         private int _continueFail;
+        private int _tryCount;
         private bool _isHide;
         private Random _random = new();
 
@@ -37,6 +38,7 @@ namespace Lib.Other
 
             _isHide = isHideForceLog;
             _current = 15;
+            _tryCount = 0;
             _continueFail = 0;
             int brokeCount = 0;
 
@@ -53,7 +55,8 @@ namespace Lib.Other
                 }
             }
 
-            WriteLine($"try count: {brokeCount + 1}", ConsoleColor.Gray);
+            WriteLine($"use equipment count: {brokeCount + 1}", ConsoleColor.Gray);
+            WriteLine($"try count: {_tryCount}", ConsoleColor.Gray);
             return brokeCount;
         }
 
@@ -73,6 +76,7 @@ namespace Lib.Other
         private bool Force()
         {
             var forceResult = IsSuccess();
+            _tryCount++;
 
             if (forceResult == true)
             {

@@ -1,4 +1,5 @@
 ﻿using Lib.CS;
+using Lib.Other;
 
 namespace Lib
 {
@@ -9,9 +10,7 @@ namespace Lib
     {
         public void Run()
         {
-            ushort b = 0xFF0F;
-            var arr = DataConvertProcess.GetBitArrayFromUshort(b);
-            var value = DataConvertProcess.GetushortFromBitArray(arr);
+            
         }
     }
 }
