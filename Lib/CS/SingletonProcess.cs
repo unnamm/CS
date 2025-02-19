@@ -11,6 +11,11 @@ namespace Lib.CS
         //private static readonly Lazy<T> _lazy = new();
         private static readonly Lazy<T> _lazy = new Lazy<T>(() => new(), LazyThreadSafetyMode.ExecutionAndPublication);
         public static T Instance => _lazy.Value;
+        
+
+        //maybe same ?
+        //private static readonly T _instance = new();
+        //public static T Instance => _instance;
     }
 
     internal class MyClass : SingletonProcess<MyClass>
