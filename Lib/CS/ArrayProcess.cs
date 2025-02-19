@@ -5,12 +5,9 @@ namespace Lib.CS
     {
         public static void Declare()
         {
-            var arr = new int[] { 100, 200, 300 };
-            int[] arr2 = [100, 200, 300];
+            int[] arr = [1, 2, 3];
 
-            var list = new List<int>();
-            List<int> list2 = [];
-            List<int> list3 = new();
+            List<int> list = [1, 2];
         }
 
         public static void Select()
