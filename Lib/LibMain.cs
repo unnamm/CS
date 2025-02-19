@@ -1,6 +1,4 @@
 ﻿using Lib.CS;
-using Lib.Other;
-using System.Diagnostics;
 
 namespace Lib
 {
@@ -11,23 +9,7 @@ namespace Lib
     {
         public void Run()
         {
-            var v = Test.Instance;
-        }
-
-        class Test
-        {
-            private static readonly Lazy<Test> _lazy = new Lazy<Test>(System.Threading.LazyThreadSafetyMode.ExecutionAndPublication);
-
-            public static Test Instance => _lazy.Value;
-
-            private string data = null;
-
-            public Test()
-            {
-                data = "aaaaa";
-            }
+            MyClass.Run();
         }
     }
-
-
 }
