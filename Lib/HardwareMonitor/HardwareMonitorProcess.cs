@@ -6,7 +6,7 @@ namespace Lib.HardwareMonitor
 {
     /// <summary>
     /// need administrator
-    /// LibreHardwareMonitorLib (0.9.3)
+    /// LibreHardwareMonitorLib
     /// </summary>
     [SupportedOSPlatform(BuiltInRoleProcess.WINDOWS)]
     internal class HardwareMonitorProcess

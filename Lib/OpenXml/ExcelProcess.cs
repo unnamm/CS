@@ -5,7 +5,7 @@ using DocumentFormat.OpenXml;
 namespace Lib.OpenXml
 {
     /// <summary>
-    /// DocumentFormat.OpenXml (3.1.0)
+    /// DocumentFormat.OpenXml
     /// lack explanation
     /// will add it later
     /// </summary>

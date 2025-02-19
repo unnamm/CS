@@ -4,7 +4,7 @@ using System.Data.Common;
 namespace Lib.Sqlite
 {
     /// <summary>
-    /// Microsoft.Data.Sqlite (8.0.8)
+    /// Microsoft.Data.Sqlite
     /// </summary>
     internal class SqliteProcess
     {

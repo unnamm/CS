@@ -9,7 +9,8 @@ namespace Lib
     {
         public void Run()
         {
-            MyClass.Run();
+            var time = BuildTimeProcess.GetBuildTime();
+            Console.WriteLine(time);
         }
     }
 }
