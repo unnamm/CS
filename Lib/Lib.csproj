@@ -17,6 +17,8 @@
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.2" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.2" />
 		<PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.23" />
+		<PackageReference Include="OpenCvSharp4" Version="4.10.0.20241108" />
+		<PackageReference Include="OpenCvSharp4.Windows" Version="4.10.0.20241108" />
 	</ItemGroup>
 
 	<ItemGroup>

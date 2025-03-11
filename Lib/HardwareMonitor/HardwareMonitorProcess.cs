@@ -30,8 +30,6 @@ namespace Lib.HardwareMonitor
                 IsPsuEnabled = true,
             };
 
-            var v = _com.Hardware;
-
             _builtInRole = new BuiltInRoleProcess();
         }
 
