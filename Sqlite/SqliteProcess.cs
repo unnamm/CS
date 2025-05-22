@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
+using Sqlite.Column;
 
 namespace Lib.Sqlite
 {
     /// <summary>
     /// Microsoft.Data.Sqlite
     /// </summary>
-    internal class SqliteProcess : ISqlite
+    public class SqliteProcess : ISqlite
     {
         private SqliteConnection _connect;
 

@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lib.Sqlite
+namespace Sqlite.Column
 {
     /// <summary>
     /// custom columns in table1
     /// </summary>
-    internal enum Table1Column
+    public enum Table1Column
     {
         Name, Value, Column3
     }

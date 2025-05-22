@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sqlite.Column;
 
 namespace Lib.Sqlite
 {
-    internal interface ISqlite
+    public interface ISqlite
     {
         Task OpenAsync(string databaseFilePath);
         Task CreateTableAsync(SqliteTable table, Dictionary<Table1Column, Type> columns);

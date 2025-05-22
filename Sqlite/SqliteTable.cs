@@ -9,7 +9,7 @@ namespace Lib.Sqlite
     /// <summary>
     /// custom table name
     /// </summary>
-    internal enum SqliteTable
+    public enum SqliteTable
     {
         Table1, Table2, Table3
     }
