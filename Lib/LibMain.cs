@@ -1,7 +1,8 @@
-﻿using Lib.CS;
-using Lib.HardwareMonitor;
-using Lib.OpenCV;
-using Lib.Other;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Lib
 {
@@ -12,7 +13,8 @@ namespace Lib
     {
         public void Run()
         {
-            Sqlite.ISqlite.Example();
+            DependencyInjection.DependencyProcess process = new();
+            process.Play();
         }
     }
 }
