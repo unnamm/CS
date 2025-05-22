@@ -12,15 +12,7 @@ namespace Lib
     {
         public void Run()
         {
-            OpenCVProcess op = new();
-
-            var mat = op.GetMat(@"user\path.bmp");
-
-            Console.WriteLine(op.SearchRectCount(mat));
-
-            op.SearchContours(mat);
-            op.MarkRect(ref mat, op.SearchContours(mat), OpenCvSharp.Scalar.Green);
-            op.ShowWindow(mat);
+            Sqlite.ISqlite.Example();
         }
     }
 }
