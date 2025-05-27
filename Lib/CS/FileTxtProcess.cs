@@ -3,39 +3,35 @@ namespace Lib.CS
 {
     internal class FileTxtProcess
     {
-        public static string ReadText(string file)
+        public static string ReadText(string filePath)
         {
-            if (file.Contains(".txt") == false)
-            {
-                throw new Exception();
-            }
+            IsCheckExtension(filePath);
 
-            if (File.Exists(file) == false)
-            {
-                return string.Empty;
-            }
+            if (File.Exists(filePath) == false)
+                throw new Exception("file is not exist");
 
-            return File.ReadAllText(file);
+            return File.ReadAllText(filePath);
         }
 
-        public static void WriteText(string file, string text)
+        public static void WriteText(string filePath, string text)
         {
-            if (file.Contains(".txt") == false)
-            {
-                throw new Exception();
-            }
-
-            File.WriteAllText(file, text); //if empty, auto make
+            IsCheckExtension(filePath);
+            File.WriteAllText(filePath, text); //if empty, auto make
         }
 
-        public static void AppendText(string file, string text)
+        public static void AppendText(string filePath, string text)
         {
-            if (file.Contains(".txt") == false)
-            {
-                throw new Exception();
-            }
-
-            File.AppendAllText(file, text); //auto make
+            IsCheckExtension(filePath);
+            File.AppendAllText(filePath, text); //if empty, auto make
         }
+
+        private static bool IsCheckExtension(string filePath)
+        {
+            if (Path.GetExtension(filePath).Equals(".txt", StringComparison.OrdinalIgnoreCase))
+                return true;
+
+            throw new Exception("file name need .txt");
+        }
+
     }
 }

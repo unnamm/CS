@@ -14,8 +14,7 @@ namespace Lib
     {
         public void Run()
         {
-            LinqProcess lp = new();
-            lp.Distinct();
+            var v = BuildTimeProcess.GetBuildTime();
         }
     }
 }
