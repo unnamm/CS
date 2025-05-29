@@ -82,7 +82,7 @@ namespace Lib.Config
         /// <param name="section"></param>
         /// <param name="key">value param name</param>
         /// <exception cref="NotImplementedException"></exception>
-        protected void Get<T>(ref T value, string section, [CallerArgumentExpression("value")] string key = "")
+        protected void Get<T>(ref T value, string section, [CallerArgumentExpression(nameof(value))] string key = "")
         {
             if (typeof(T) == typeof(string[]))
             {
