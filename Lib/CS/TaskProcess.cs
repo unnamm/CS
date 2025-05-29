@@ -1,39 +1,75 @@
-﻿
+﻿using System.Diagnostics;
+
 namespace Lib.CS
 {
     internal class TaskProcess
     {
-        public static void Example()
+        public void Example1() //run same time
         {
-            f();
+            Task.Run(F1);
+            Task.Run(F2);
+        }
+        public void Example2()
+        {
+            _ = F1(); //execute until await is encountered
+            F2(); //run next after f1 await
+        }
+        public void Example3()
+        {
+            F2(); //no have await
+            _ = F1(); //run next after f2 end
+        }
+        public async Task Example4()
+        {
+            var task2 = F2();
+            var task1 = F1();
 
-            Task.Run(async () =>
+            await Task.WhenAll(task1, task2); //wait all
+            Console.WriteLine("all end");
+
+            task2 = F2();
+            task1 = F1(); //f1 end after any end
+
+            var anyTask = await Task.WhenAny(task1, task2); //wait any
+            Console.WriteLine($"any end: {(anyTask == task1 ? "task1" : "task2")}");
+        }
+
+        private async Task F1() //check every 500ms
+        {
+            var watch = Stopwatch.StartNew();
+            while (true)
             {
-                await getTask();
-                Console.WriteLine("delay 1000");
-                var value = await getValue();
-                Console.WriteLine("get:" + value);
-            });
-
-            Console.WriteLine("example end");
+                if (watch.ElapsedMilliseconds >= 2000)
+                {
+                    Console.WriteLine("end f1");
+                    return;
+                }
+                await Task.Delay(1000);
+            }
         }
 
-        private static async void f()
+        private Task F2() //check always
         {
-            await Task.Delay(1000);
-            await getTask();
-            Console.WriteLine("delay 1000+1000");
+            var watch = Stopwatch.StartNew();
+            while (true)
+            {
+                if (watch.ElapsedMilliseconds >= 2000)
+                {
+                    Console.WriteLine("end f2");
+                    return Task.CompletedTask;
+                }
+            }
         }
 
-        private static Task getTask() => Task.Delay(1000);
+        public Task<int> GetData1() => Task.FromResult(1);
 
-        private async static Task<int> getValue()
+        public async Task<int> GetData2()
         {
-            await Task.Delay(1000);
-            return 1;
+            await Task.Delay(1);
+            return 2;
         }
 
-        public async static void ExampleCancel()
+        public async Task ExampleCancel()
         {
             CancellationTokenSource cts = new();
 
@@ -51,7 +87,7 @@ namespace Lib.CS
                     //second
                     try
                     {
-                        cts.Token.ThrowIfCancellationRequested();
+                        cts.Token.ThrowIfCancellationRequested(); //make throw
                     }
                     catch (OperationCanceledException)
                     {
@@ -59,11 +95,9 @@ namespace Lib.CS
                         break;
                     }
                 }
-
             });
 
             await Task.Delay(1000);
-
             cts.Cancel(); //cancel after 1000
         }
 

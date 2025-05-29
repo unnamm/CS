@@ -14,7 +14,8 @@ namespace Lib
     {
         public void Run()
         {
-            var v = BuildTimeProcess.GetBuildTime();
+            var t = new TaskProcess();
+            t.Example4();
         }
     }
 }

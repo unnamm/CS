@@ -24,15 +24,15 @@ namespace Lib.CS
 
         public static void Foreach()
         {
-            var arr = new int[] { 1, 2, 3, 4, 5 };
+            var arr = new int[] { 1, 2, 3 };
             var list = new List<int>();
 
-            Array.ForEach(arr, list.Add);
+            Array.ForEach(arr, list.Add); //[1, 2, 3]
 
             foreach (var x in arr)
             {
                 list.Add(x);
-            }
+            } //[1, 2, 3, 1, 2, 3]
         }
 
         public void Join()
