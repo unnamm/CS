@@ -14,8 +14,7 @@ namespace Lib
     {
         public void Run()
         {
-            var t = new TaskProcess();
-            t.Example4();
+            ClassProcess.Example();
         }
     }
 }
