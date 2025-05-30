@@ -14,7 +14,7 @@ namespace Lib
     {
         public void Run()
         {
-            ClassProcess.Example();
+            AttributeProcess.Example();
         }
     }
 }
