@@ -13,7 +13,7 @@ namespace Lib
     {
         public void Run()
         {
-            Sqlite.ISqlite.Example();
+            //MSSQL.SqlTest.Example();
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lib.Sqlite
 {
-    public interface ISqlite
+    public interface ISqlite : IDisposable
     {
         Task OpenAsync();
 
@@ -61,7 +61,7 @@ namespace Lib.Sqlite
 
         public static async void Example()
         {
-            ISqlite sp = new SqliteProcess(@"D:/data.db");
+            using ISqlite sp = new SqliteProcess(@"D:/data.db");
             await sp.OpenAsync();
 
             var columns = ISqlite.GetColumns();

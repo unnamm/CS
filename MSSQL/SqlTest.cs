@@ -1,17 +1,19 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Data.Sqlite;
 
-namespace Lib.Sqlite
+namespace MSSQL
 {
-    public class SqliteProcess : ISqlite
+    public class SqlTest
     {
-        private readonly SqliteConnection _connect;
+        private readonly SqlConnection _connect;
 
-        public SqliteProcess(string dataSource)
+        public SqlTest(string dataSource)
         {
             _connect = new($"Data Source={dataSource}");
         }
@@ -30,7 +32,7 @@ namespace Lib.Sqlite
 
             string[] dataList = datas.Select(x =>
             {
-                if (TypeCheck(x) == SqliteType.Text)
+                if (TypeCheck(x) == SqlDbType.Text)
                 {
                     return $"'{x}'";
                 }
@@ -50,7 +52,7 @@ namespace Lib.Sqlite
 
         public async Task<int> GetCountAsync(string table, string column, object condition)
         {
-            if (TypeCheck(condition) == SqliteType.Text)
+            if (TypeCheck(condition) == SqlDbType.Text)
             {
                 condition = $"'{condition}'";
             }
@@ -62,12 +64,12 @@ namespace Lib.Sqlite
 
         public Task UpdateAsync(string table, string conditionColumn, object conditionValue, string updateColumn, object updateValue)
         {
-            if (TypeCheck(conditionValue) == SqliteType.Text)
+            if (TypeCheck(conditionValue) == SqlDbType.Text)
             {
                 conditionValue = $"'{conditionValue}'";
             }
 
-            if (TypeCheck(updateValue) == SqliteType.Text)
+            if (TypeCheck(updateValue) == SqlDbType.Text)
             {
                 updateValue = $"'{updateValue}'";
             }
@@ -78,7 +80,7 @@ namespace Lib.Sqlite
 
         public async Task<List<object[]>> GetRowsAsync(string table, string column, object condition)
         {
-            if (TypeCheck(condition) == SqliteType.Text)
+            if (TypeCheck(condition) == SqlDbType.Text)
             {
                 condition = $"'{condition}'";
             }
@@ -88,7 +90,7 @@ namespace Lib.Sqlite
 
             var read = await command.ExecuteReaderAsync();
 
-            var columns = ISqlite.GetColumns();
+            string[] columns = ["col1", "col2", "col3"];
 
             List<object[]> list = [];
             while (read.Read())
@@ -103,7 +105,7 @@ namespace Lib.Sqlite
 
         public Task DeleteAsync(string table, string column, object condition)
         {
-            if (TypeCheck(condition) == SqliteType.Text)
+            if (TypeCheck(condition) == SqlDbType.Text)
             {
                 condition = $"'{condition}'";
             }
@@ -135,11 +137,11 @@ namespace Lib.Sqlite
             return datas;
         }
 
-        private static SqliteType TypeCheck<T>(T data) => TypeCheck(data!.GetType());
+        private static SqlDbType TypeCheck<T>(T data) => TypeCheck(data!.GetType());
 
-        private static SqliteType TypeCheck(Type type)
+        private static SqlDbType TypeCheck(Type type)
         {
-            SqliteType? returnType = null;
+            SqlDbType? returnType = null;
 
             if (type == typeof(bool) ||
                 type == typeof(byte) ||
@@ -147,22 +149,18 @@ namespace Lib.Sqlite
                 type == typeof(int) || type == typeof(uint) ||
                 type == typeof(long) || type == typeof(ulong))
             {
-                returnType = SqliteType.Integer;
+                returnType = SqlDbType.Int;
             }
             else if (type == typeof(double) || type == typeof(float))
             {
-                returnType = SqliteType.Real;
+                returnType = SqlDbType.Real;
             }
             else if (type == typeof(char) || type == typeof(decimal) ||
                 type == typeof(string) || type == typeof(Guid) ||
                 type == typeof(DateTime) || type == typeof(DateOnly) || type == typeof(DateTimeOffset) ||
                 type == typeof(TimeOnly) || type == typeof(TimeSpan))
             {
-                returnType = SqliteType.Text;
-            }
-            else if (type == typeof(byte[]))
-            {
-                returnType = SqliteType.Blob;
+                returnType = SqlDbType.Text;
             }
 
             if (returnType == null)
@@ -176,6 +174,25 @@ namespace Lib.Sqlite
         public void Dispose()
         {
             _connect.Dispose();
+        }
+
+        public static async void Example()
+        {
+            SqlTest sp = new SqlTest(@"D:/data.db");
+            await sp.OpenAsync();
+
+            string[] columns = ["c1", "c2", "c3"];
+            Dictionary<string, Type> dic = [];
+            dic.Add(columns[0], typeof(string));
+            dic.Add(columns[1], typeof(int));
+            dic.Add(columns[2], typeof(bool));
+            await sp.CreateTableAsync("table1", dic);
+
+            await sp.AddDatasAsync("table1", ["name1", 1, true]);
+            await sp.AddDatasAsync("table1", ["name2", 2, true]);
+            await sp.AddDatasAsync("table1", ["name3", 3, false]);
+
+            var c = await sp.GetCountAsync("table1");
         }
     }
 }

@@ -13,6 +13,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\DependencyInjection\DependencyInjection.csproj" />
+	  <ProjectReference Include="..\MSSQL\MSSQL.csproj" />
 	  <ProjectReference Include="..\OpenCVNet\OpenCVNet.csproj" />
 	  <ProjectReference Include="..\Sqlite\Sqlite.csproj" />
 	</ItemGroup>
