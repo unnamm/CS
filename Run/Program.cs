@@ -1,9 +1,9 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using Lib;
+using Lib.OpenCV;
 
 Console.WriteLine("Hello, World!");
 
-LibMain lm = new();
-lm.Run();
+new Lib.LibMain().Run();
 
 Console.ReadLine();

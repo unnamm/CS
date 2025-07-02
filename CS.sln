@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInjection", "Depe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCVNet", "OpenCVNet\OpenCVNet.csproj", "{F7C6D892-9665-4F3C-AAA4-0FBE009903AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSSQL", "MSSQL\MSSQL.csproj", "{C98A5A61-F93C-4189-8210-BE8EA9DB852D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{F7C6D892-9665-4F3C-AAA4-0FBE009903AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7C6D892-9665-4F3C-AAA4-0FBE009903AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7C6D892-9665-4F3C-AAA4-0FBE009903AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C98A5A61-F93C-4189-8210-BE8EA9DB852D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C98A5A61-F93C-4189-8210-BE8EA9DB852D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C98A5A61-F93C-4189-8210-BE8EA9DB852D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C98A5A61-F93C-4189-8210-BE8EA9DB852D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

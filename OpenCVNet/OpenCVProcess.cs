@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lib.OpenCV
 {
-    class OpenCVProcess
+    public class OpenCVProcess
     {
         /// <summary>
         /// get mat from file path
@@ -66,6 +66,25 @@ namespace Lib.OpenCV
                 var rect = Cv2.BoundingRect(p);
                 Cv2.Rectangle(mat, rect, scalar, 2);
             }
+        }
+
+        public void T()
+        {
+            var min = 15.0;
+            var max = 40.0;
+            var minp = (min + 273.15) * 100;
+            var maxp = (max + 273.15) * 100;
+            var alpha = 255.0 / (maxp - minp);
+            var beta = -minp * alpha;
+
+            var data = Cv2.ImRead(@"C:\Users\rkddk\Downloads\pipe_img_sample\20250413_173244.png", ImreadModes.Color);
+            data = data.Resize(new Size(1920, 1024));
+            Mat oa = new();
+            Cv2.ConvertScaleAbs(data, oa);
+            Mat oa2 = new();
+            Cv2.ApplyColorMap(oa, oa2, ColormapTypes.Jet);
+            Cv2.ImShow("win", oa2);
+            Cv2.WaitKey(0);
         }
     }
 }

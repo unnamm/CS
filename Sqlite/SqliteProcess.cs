@@ -4,30 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
-using Sqlite.Column;
 
 namespace Lib.Sqlite
 {
-    /// <summary>
-    /// Microsoft.Data.Sqlite
-    /// </summary>
     public class SqliteProcess : ISqlite
     {
-        private SqliteConnection _connect;
+        private readonly SqliteConnection _connect;
 
-        public Task OpenAsync(string databaseFilePath)
+        public SqliteProcess(string dataSource)
         {
-            _connect = new($"Data Source={databaseFilePath}");
-            return _connect.OpenAsync();
+            _connect = new($"Data Source={dataSource}");
         }
 
-        public Task CreateTableAsync(SqliteTable table, Dictionary<Table1Column, Type> columns)
+        public Task OpenAsync() => _connect.OpenAsync();
+
+        public Task CreateTableAsync(string table, Dictionary<string, Type> columns)
         {
             var columnList = columns.Select(pair => $"'{pair.Key}' {TypeCheck(pair.Value)}");
             return RunQueryAsync($"create table if not exists '{table}' ({string.Join(", ", columnList)})");
         }
 
-        public Task AddDatasAsync(SqliteTable table, object[] datas)
+        public Task AddDatasAsync(string table, object[] datas)
         {
             datas = ChangeFormat(datas);
 
@@ -44,14 +41,14 @@ namespace Lib.Sqlite
             return RunQueryAsync(query);
         }
 
-        public async Task<int> GetCountAsync(SqliteTable table)
+        public async Task<int> GetCountAsync(string table)
         {
             var command = _connect.CreateCommand();
             command.CommandText = $"select count(*) from '{table}'";
             return (int)(long)(await command.ExecuteScalarAsync())!;
         }
 
-        public async Task<int> GetCountAsync(SqliteTable table, Table1Column column, object condition)
+        public async Task<int> GetCountAsync(string table, string column, object condition)
         {
             if (TypeCheck(condition) == SqliteType.Text)
             {
@@ -63,7 +60,7 @@ namespace Lib.Sqlite
             return (int)(long)(await command.ExecuteScalarAsync())!;
         }
 
-        public Task UpdateAsync(SqliteTable table, Table1Column conditionColumn, object conditionValue, Table1Column updateColumn, object updateValue)
+        public Task UpdateAsync(string table, string conditionColumn, object conditionValue, string updateColumn, object updateValue)
         {
             if (TypeCheck(conditionValue) == SqliteType.Text)
             {
@@ -79,7 +76,7 @@ namespace Lib.Sqlite
             return RunQueryAsync(query);
         }
 
-        public async Task<List<object[]>> GetRowsAsync(SqliteTable table, Table1Column column, object condition)
+        public async Task<List<object[]>> GetRowsAsync(string table, string column, object condition)
         {
             if (TypeCheck(condition) == SqliteType.Text)
             {
@@ -91,8 +88,9 @@ namespace Lib.Sqlite
 
             var read = await command.ExecuteReaderAsync();
 
+            var columns = ISqlite.GetColumns();
+
             List<object[]> list = [];
-            var columns = Enum.GetValues<Table1Column>();
             while (read.Read())
             {
                 list.Add(columns.Select(x => read[x.ToString()]).ToArray());
@@ -101,9 +99,9 @@ namespace Lib.Sqlite
             return list;
         }
 
-        public Task ClearTableAsync(SqliteTable table) => RunQueryAsync($"delete from '{table}'");
+        public Task ClearTableAsync(string table) => RunQueryAsync($"delete from '{table}'");
 
-        public Task DeleteAsync(SqliteTable table, Table1Column column, object condition)
+        public Task DeleteAsync(string table, string column, object condition)
         {
             if (TypeCheck(condition) == SqliteType.Text)
             {

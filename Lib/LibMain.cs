@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lib.CS;
 
 namespace Lib
 {
@@ -14,7 +13,7 @@ namespace Lib
     {
         public void Run()
         {
-            AttributeProcess.Example();
+            Sqlite.ISqlite.Example();
         }
     }
 }
