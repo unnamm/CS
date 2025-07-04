@@ -8,7 +8,6 @@ Console.ReadLine();
 
 void Run()
 {
-    var buff = DrawingNet.MakeImage.CreateImageBytes(640, 480);
     OpenCVNet.OpenCVProcess p = new();
-    p.ShowWindow(buff);
+    p.MakeImage(640, 480);
 }

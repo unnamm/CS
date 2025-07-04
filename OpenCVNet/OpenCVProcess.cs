@@ -74,6 +74,14 @@ namespace OpenCVNet
             }
         }
 
+        public Mat MakeImage(int width, int height)
+        {
+            var image = new Mat(new Size(width, height), MatType.CV_8UC3, Scalar.Black);
+            Cv2.PutText(image, "hello", new Point(10, 50), HersheyFonts.HersheySimplex, 1d, Scalar.White);
+            //ShowWindow(image);
+            return image;
+        }
+
         public void T()
         {
             var min = 15.0;
