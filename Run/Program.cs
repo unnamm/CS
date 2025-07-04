@@ -2,6 +2,13 @@
 
 Console.WriteLine("Hello, World!");
 
-new Lib.LibMain().Run();
+Run();
 
 Console.ReadLine();
+
+void Run()
+{
+    var buff = DrawingNet.MakeImage.CreateImageBytes(640, 480);
+    OpenCVNet.OpenCVProcess p = new();
+    p.ShowWindow(buff);
+}

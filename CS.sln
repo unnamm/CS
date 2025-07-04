@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCVNet", "OpenCVNet\Open
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSSQL", "MSSQL\MSSQL.csproj", "{C98A5A61-F93C-4189-8210-BE8EA9DB852D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrawingNet", "DrawingNet\DrawingNet.csproj", "{D3426A73-E8A0-4363-86CD-B495FD2E38F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{C98A5A61-F93C-4189-8210-BE8EA9DB852D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C98A5A61-F93C-4189-8210-BE8EA9DB852D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C98A5A61-F93C-4189-8210-BE8EA9DB852D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3426A73-E8A0-4363-86CD-B495FD2E38F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3426A73-E8A0-4363-86CD-B495FD2E38F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3426A73-E8A0-4363-86CD-B495FD2E38F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3426A73-E8A0-4363-86CD-B495FD2E38F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

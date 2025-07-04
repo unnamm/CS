@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lib.OpenCV
+namespace OpenCVNet
 {
     public class OpenCVProcess
     {
@@ -25,6 +25,12 @@ namespace Lib.OpenCV
             Cv2.ImShow("title", mat);
             Cv2.WaitKey(0);
             Cv2.DestroyAllWindows();
+        }
+
+        public void ShowWindow(byte[] imageData)
+        {
+            var mat = Mat.FromImageData(imageData);
+            ShowWindow(mat);
         }
 
         /// <summary>
