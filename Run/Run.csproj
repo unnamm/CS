@@ -10,7 +10,9 @@
   <ItemGroup>
     <ProjectReference Include="..\DrawingNet\DrawingNet.csproj" />
     <ProjectReference Include="..\Lib\Lib.csproj" />
+    <ProjectReference Include="..\MSSQL\MSSQL.csproj" />
     <ProjectReference Include="..\OpenCVNet\OpenCVNet.csproj" />
+    <ProjectReference Include="..\Sqlite\Sqlite.csproj" />
   </ItemGroup>
 
 </Project>

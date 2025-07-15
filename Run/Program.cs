@@ -2,12 +2,6 @@
 
 Console.WriteLine("Hello, World!");
 
-Run();
+_ = Sqlite.Example.Sample();
 
 Console.ReadLine();
-
-void Run()
-{
-    OpenCVNet.OpenCVProcess p = new();
-    p.MakeImage(640, 480);
-}
