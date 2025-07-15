@@ -1,5 +1,5 @@
 ﻿using DatabaseAbstraction;
-using Microsoft.Data.Sqlite;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sqlite
+namespace MSSQL
 {
-    internal class SqliteConnect : Connector
+    internal class MSSqlConnect : Connector
     {
-        private SqliteConnection _connect;
+        private SqlConnection _connect;
 
         public override Task OpenAsync(string dataSource)
         {

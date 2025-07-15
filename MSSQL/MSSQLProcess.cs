@@ -1,21 +1,70 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using DatabaseAbstraction;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MSSQL
 {
-    public class MSSQLProcess
+    internal class MSSqlProcess : Database<SqlDbType>
     {
-        private readonly SqlConnection _connect;
+        public MSSqlProcess(IConnector con) : base(con) { }
 
-        public MSSQLProcess(string dataSource)
+        protected override SqlDbType CheckType(Type type)
         {
-            _connect = new($"Data Source={dataSource}");
+            if (type == typeof(long))
+            {
+                return SqlDbType.BigInt;
+            }
+            if (type == typeof(byte))
+            {
+                return SqlDbType.TinyInt;
+            }
+            if (type == typeof(bool))
+            {
+                return SqlDbType.Bit;
+            }
+            if (type == typeof(string))
+            {
+                return SqlDbType.NVarChar;
+            }
+            if (type == typeof(DateTime))
+            {
+                return SqlDbType.DateTime;
+            }
+            if (type == typeof(decimal))
+            {
+                return SqlDbType.Decimal;
+            }
+            if (type == typeof(double))
+            {
+                return SqlDbType.Float;
+            }
+            if (type == typeof(int))
+            {
+                return SqlDbType.Int;
+            }
+            if (type == typeof(float))
+            {
+                return SqlDbType.Real;
+            }
+            if (type == typeof(short))
+            {
+                return SqlDbType.SmallInt;
+            }
+            if (type == typeof(byte[]))
+            {
+                return SqlDbType.VarBinary;
+            }
+
+            throw new NotImplementedException($"type={type}");
         }
 
-        public Task OpenAsync(string dataSource) => _connect.OpenAsync();
+        protected override object Format(object data)
+        {
+            return data;
+        }
     }
 }

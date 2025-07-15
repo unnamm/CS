@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Sqlite
 {
-    public class SqliteProcess : Database<SqliteType>
+    internal class SqliteProcess : Database<SqliteType>
     {
         public SqliteProcess(SqliteConnect connect) : base(connect) { }
 
