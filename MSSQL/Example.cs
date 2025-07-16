@@ -12,14 +12,16 @@ namespace MSSQL
         public static async Task Sample()
         {
             const string TABLE = "dhglobal";
-            const string ID = "";
-            const string PASSWORD = "";
+
             const string IP = "";
             const int PORT = 1000;
+            const string CATALOG = "";
+            const string ID = "";
+            const string PASSWORD = "";
 
             //open database
             IDatabase db = new MSSqlProcess(new());
-            await db.OpenAsync($"{IP},{PORT};Initial Catalog = tempTest;USER ID = {ID};PASSWORD = {PASSWORD};TrustServerCertificate=true;");
+            await db.OpenAsync($"{IP},{PORT};Initial Catalog = {CATALOG};USER ID = {ID};PASSWORD = {PASSWORD};TrustServerCertificate=true;");
 
             //create table
             //Dictionary<string, Type> dic = [];
