@@ -10,7 +10,7 @@ namespace DatabaseAbstraction
     {
         Task OpenAsync(string dataSource);
         Task WriteAsync(string query);
-        Task<long> ReadCountAsync(string query);
+        Task<int> ReadCountAsync(string query);
         Task<List<object[]>> ReadRowsAsync(string query, params string[] readColumns);
     }
 }

@@ -30,6 +30,11 @@ namespace Sqlite
             await db.AddDataAsync(TABLE, "name3", 3.3, 1);
             await db.AddDataAsync(TABLE, "name4", 4.0, 0);
 
+            //add row, want column
+            Dictionary<string, object> columnAndValue = [];
+            columnAndValue.Add(GetColumns()[1], 4.4);
+            await db.AddDataAsync(TABLE, columnAndValue);
+
             //update all row
             Dictionary<string, object> dic2 = [];
             dic2.Add("name", "this is true");

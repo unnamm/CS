@@ -10,7 +10,7 @@ namespace MSSQL
 {
     internal class MSSqlProcess : Database<SqlDbType>
     {
-        public MSSqlProcess(IConnector con) : base(con) { }
+        public MSSqlProcess(MSSqlConnect con) : base(con) { }
 
         protected override SqlDbType CheckType(Type type)
         {

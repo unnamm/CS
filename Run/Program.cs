@@ -2,6 +2,6 @@
 
 Console.WriteLine("Hello, World!");
 
-_ = Sqlite.Example.Sample();
+_ = MSSQL.Example.Sample();
 
 Console.ReadLine();

@@ -28,7 +28,7 @@ namespace DatabaseAbstraction
             var pair = columns.Select(x => $"'{x.Key}' {CheckType(x.Value)}");
             var querys = string.Join(", ", pair);
 
-            var query = $"CREATE TABLE IF NOT EXISTS '{table}' ({querys})";
+            var query = $"CREATE TABLE IF NOT EXISTS [{table}] ({querys})";
 
             return _connect.WriteAsync(query);
         }
@@ -40,7 +40,22 @@ namespace DatabaseAbstraction
                 datas[i] = Format(datas[i]);
             }
 
-            var query = $"INSERT INTO '{table}' VALUES ({string.Join(',', datas)})";
+            var query = $"INSERT INTO [{table}] VALUES ({string.Join(',', datas)})";
+
+            return _connect.WriteAsync(query);
+        }
+
+        public Task AddDataAsync(string table, Dictionary<string, object> pairs)
+        {
+            foreach (var key in pairs.Keys)
+            {
+                pairs[key] = Format(pairs[key]);
+            }
+
+            var keys = string.Join(", ", pairs.Keys);
+            var values = string.Join(", ", pairs.Values);
+
+            var query = $"INSERT INTO [{table}] ({keys}) VALUES ({values})";
 
             return _connect.WriteAsync(query);
         }
@@ -55,28 +70,28 @@ namespace DatabaseAbstraction
             var pair = valuePair.Select(x => $"'{x.Key}' = {x.Value}");
             var querys = string.Join(", ", pair);
 
-            var query = $"UPDATE '{table}' SET {querys} {GetCondition(condition)}";
+            var query = $"UPDATE [{table}] SET {querys} {GetCondition(condition)}";
 
             return _connect.WriteAsync(query);
         }
 
         public Task DeleteAsync(string table, string? condition = null)
         {
-            var query = $"DELETE FROM '{table}' {GetCondition(condition)}";
+            var query = $"DELETE FROM [{table}] {GetCondition(condition)}";
 
             return _connect.WriteAsync(query);
         }
 
-        public Task<long> GetCountAsync(string table, string? condition = null)
+        public Task<int> GetCountAsync(string table, string? condition = null)
         {
-            var query = $"SELECT COUNT(*) FROM '{table}' {GetCondition(condition)}";
+            var query = $"SELECT COUNT(*) FROM [{table}] {GetCondition(condition)}";
 
             return _connect.ReadCountAsync(query);
         }
 
         public Task<List<object[]>> GetRowAsync(string table, string[] readColumns, string? condition = null)
         {
-            var query = $"SELECT * FROM '{table}' {GetCondition(condition)}";
+            var query = $"SELECT * FROM [{table}] {GetCondition(condition)}";
 
             return _connect.ReadRowsAsync(query, readColumns);
         }
