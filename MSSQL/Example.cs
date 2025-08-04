@@ -53,7 +53,7 @@ namespace MSSQL
             //var rowCount = await db.GetCountAsync(TABLE, "column3 = true");
 
             //get row datas
-            var allResult = await db.GetRowAsync((TABLE), GetColumns());
+            var allResult = await db.GetRowAsync(TABLE, GetColumns());
             //var results = await db.GetRowAsync(TABLE, GetColumns(), "column3 = true");
 
             //delete rows
