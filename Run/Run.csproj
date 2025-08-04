@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DesignPattern\DesignPattern.csproj" />
     <ProjectReference Include="..\DrawingNet\DrawingNet.csproj" />
     <ProjectReference Include="..\Lib\Lib.csproj" />
     <ProjectReference Include="..\MSSQL\MSSQL.csproj" />
