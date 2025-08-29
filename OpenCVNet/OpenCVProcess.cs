@@ -9,6 +9,8 @@ namespace OpenCVNet
 {
     public class OpenCVProcess
     {
+        private readonly Mat _element = Cv2.GetStructuringElement(MorphShapes.Rect, new Size(6, 6));
+
         /// <summary>
         /// get mat from file path
         /// </summary>
@@ -33,72 +35,40 @@ namespace OpenCVNet
             ShowWindow(mat);
         }
 
-        /// <summary>
-        /// find rect count from image
-        /// </summary>
-        /// <param name="mat"></param>
-        /// <returns></returns>
-        public int SearchRectCount(Mat mat)
+        //erode white
+        public Mat Erosion(Mat mat) => mat.Erode(_element);
+
+        //dilate white
+        public Mat Dilatation(Mat mat) => mat.Dilate(_element);
+
+        //remove backgroud nosie
+        public Mat Erode_Dilate(Mat mat) => mat.MorphologyEx(MorphTypes.Open, _element);
+
+        //remove foreground nosie
+        public Mat Dilate_Erode(Mat mat) => mat.MorphologyEx(MorphTypes.Close, _element);
+
+        public Mat Gradient(Mat mat)
         {
-            using var grayScale = mat.CvtColor(ColorConversionCodes.BGR2GRAY);
-            using var threshold = grayScale.Threshold(60, 250, ThresholdTypes.Binary);
-
-            Cv2.FindContours(threshold, out var contours, out var hierarchy, RetrievalModes.External, ContourApproximationModes.ApproxSimple);
-
-            return contours.Select(Cv2.BoundingRect).Count();
+            var element = Cv2.GetStructuringElement(MorphShapes.Ellipse, new Size(2, 2));
+            return mat.MorphologyEx(MorphTypes.Gradient, element);
         }
 
-        public Point[][] SearchContours(Mat mat)
+        public Mat Process(Mat mat, double? threshold = null)
         {
-            using var grayScale = mat.CvtColor(ColorConversionCodes.BGR2GRAY);
-            using var threshold = grayScale.Threshold(60, 250, ThresholdTypes.Binary);
+            var process = mat.CvtColor(ColorConversionCodes.BGR2GRAY);
 
-            Cv2.FindContours(threshold, out var contours, out var hierarchy, RetrievalModes.External, ContourApproximationModes.ApproxSimple);
-
-            return contours;
-        }
-
-        /// <summary>
-        /// mark rect from image
-        /// </summary>
-        /// <param name="mat"></param>
-        /// <param name="contours"></param>
-        /// <param name="scalar"></param>
-        /// <returns></returns>
-        public void MarkRect(ref Mat mat, Point[][] contours, Scalar scalar)
-        {
-            foreach (var p in contours)
+            if (threshold == null)
             {
-                var rect = Cv2.BoundingRect(p);
-                Cv2.Rectangle(mat, rect, scalar, 2);
+                threshold = mat.Mean().Val0;
             }
+
+            process = process.Threshold(threshold.Value, byte.MaxValue, ThresholdTypes.Binary);
+            process = Erode_Dilate(process);
+            //process = Dilate_Erode(process);
+            process = Gradient(process);
+
+            return process;
         }
 
-        public Mat MakeImage(int width, int height)
-        {
-            var image = new Mat(new Size(width, height), MatType.CV_8UC3, Scalar.Black);
-            Cv2.PutText(image, "hello", new Point(10, 50), HersheyFonts.HersheySimplex, 1d, Scalar.White);
-            //ShowWindow(image);
-            return image;
-        }
-
-        public void T()
-        {
-            var min = 15.0;
-            var max = 40.0;
-            var minp = (min + 273.15) * 100;
-            var maxp = (max + 273.15) * 100;
-            var alpha = 255.0 / (maxp - minp);
-            var beta = -minp * alpha;
-
-            var data = Cv2.ImRead(@"C:\Users\rkddk\Downloads\pipe_img_sample\20250413_173244.png", ImreadModes.Color);
-            data = data.Resize(new Size(1920, 1024));
-            Mat oa = new();
-            Cv2.ConvertScaleAbs(data, oa);
-            Mat oa2 = new();
-            Cv2.ApplyColorMap(oa, oa2, ColormapTypes.Jet);
-            Cv2.ImShow("win", oa2);
-            Cv2.WaitKey(0);
-        }
     }
 }

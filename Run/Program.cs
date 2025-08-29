@@ -2,6 +2,9 @@
 
 Console.WriteLine("Hello, World!");
 
-DesignPattern.Create.Builder.Sample();
+OpenCVNet.OpenCVProcess oc = new();
+var mat = oc.GetMat(@"C:\your.png");
+mat = oc.Process(mat);
+oc.ShowWindow(mat);
 
 Console.ReadLine();
