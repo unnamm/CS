@@ -53,21 +53,12 @@ namespace OpenCVNet
             return mat.MorphologyEx(MorphTypes.Gradient, element);
         }
 
-        public Mat Process(Mat mat, double? threshold = null)
+        public Mat Process(Mat mat)
         {
-            var process = mat.CvtColor(ColorConversionCodes.BGR2GRAY);
+            mat = mat.CvtColor(ColorConversionCodes.BGR2GRAY);
+            var v = mat.Mean();
 
-            if (threshold == null)
-            {
-                threshold = mat.Mean().Val0;
-            }
-
-            process = process.Threshold(threshold.Value, byte.MaxValue, ThresholdTypes.Binary);
-            process = Erode_Dilate(process);
-            //process = Dilate_Erode(process);
-            process = Gradient(process);
-
-            return process;
+            return mat;
         }
 
     }

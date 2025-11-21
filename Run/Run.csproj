@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CommandPrompt\CommandPrompt.csproj" />
     <ProjectReference Include="..\DesignPattern\DesignPattern.csproj" />
     <ProjectReference Include="..\DrawingNet\DrawingNet.csproj" />
     <ProjectReference Include="..\Lib\Lib.csproj" />

@@ -1,10 +1,13 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using CommandPrompt;
+
 Console.WriteLine("Hello, World!");
 
-OpenCVNet.OpenCVProcess oc = new();
-var mat = oc.GetMat(@"C:\your.png");
-mat = oc.Process(mat);
-oc.ShowWindow(mat);
+WmicCsproduct command = new WmicCsproduct();
+var result = new RunCommand().RunAsync(command.Command).Result;
+var dic = command.Process(result);
+var str = command.ConvertString(dic);
+Console.WriteLine(str);
 
 Console.ReadLine();
