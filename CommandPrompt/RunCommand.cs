@@ -7,16 +7,15 @@ namespace CommandPrompt
         public async Task<string> RunAsync(string command)
         {
             ProcessStartInfo cmd = new ProcessStartInfo();
-            Process process = new Process();
-            cmd.FileName = @"cmd";
+            cmd.FileName = "cmd";
             cmd.WindowStyle = ProcessWindowStyle.Hidden;
             cmd.CreateNoWindow = true;
-
             cmd.UseShellExecute = false;
             cmd.RedirectStandardOutput = true;
             cmd.RedirectStandardInput = true;
             cmd.RedirectStandardError = true;
 
+            using Process process = new Process();
             process.EnableRaisingEvents = false;
             process.StartInfo = cmd;
             process.Start();
@@ -26,7 +25,6 @@ namespace CommandPrompt
             string result = process.StandardOutput.ReadToEnd();
 
             await process.WaitForExitAsync();
-            process.Close();
 
             return result;
         }
