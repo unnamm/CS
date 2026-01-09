@@ -87,8 +87,9 @@ namespace Communicate.Serial
         /// When the last string read is equal to last
         /// </summary>
         /// <param name="last"></param>
+        /// <param name="packetBufferSize"></param>
         /// <returns></returns>
-        public async Task<string> ReadAsync(string last)
+        public async Task<string> ReadAsync(string last, int packetBufferSize = 256)
         {
             if (_serialType == SerialType.Event)
             {
@@ -101,7 +102,7 @@ namespace Communicate.Serial
             {
                 while (true)
                 {
-                    byte[] buffer = new byte[256];
+                    byte[] buffer = new byte[packetBufferSize];
                     var len = _serialPort.Read(buffer, 0, buffer.Length);
                     byte[] data = new byte[len];
                     Array.Copy(buffer, data, len);

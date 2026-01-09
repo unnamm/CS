@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using Communicate.Serial;
+using Communicate.Tcp;
 using OpenCVNet;
 using OpenCvSharp;
 using System.Diagnostics;
@@ -14,5 +15,6 @@ Console.ReadLine();
 
 async Task Run()
 {
-    SerialCommunicateExample.RunEvent();
+    await TcpCommunicateExample.Run();
+
 }
