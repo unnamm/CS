@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Communicate
+namespace Communicate.Serial
 {
     public class SerialCommunicate
     {
