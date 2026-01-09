@@ -13,7 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CommandPrompt\CommandPrompt.csproj" />
+    <ProjectReference Include="..\Communicate\Communicate.csproj" />
+    <ProjectReference Include="..\OpenCVNet\OpenCVNet.csproj" />
   </ItemGroup>
 
 </Project>
