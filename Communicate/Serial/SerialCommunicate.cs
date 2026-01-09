@@ -7,12 +7,20 @@ using System.Threading.Tasks;
 
 namespace Communicate.Serial
 {
-    public class SerialCommunicate
+    public class SerialCommunicate : IDisposable
     {
         private readonly SerialPort _serialPort = new();
 
-        public void Connect(string portName, int baudRate = 9600, Parity parity = Parity.None, int dataBits = 8, StopBits stopBits = StopBits.One, int timeoutMilli = 1000)
+        private SerialType _serialType;
+
+        public Action<string>? DataReceived;
+
+        public void Connect(string portName, SerialType type, int baudRate = 9600, Parity parity = Parity.None, int dataBits = 8, StopBits stopBits = StopBits.One, int timeoutMilli = 1000)
         {
+            DataReceived = null;
+
+            _serialType = type;
+
             _serialPort.PortName = portName;
             _serialPort.BaudRate = baudRate;
             _serialPort.Parity = parity;
@@ -22,6 +30,21 @@ namespace Communicate.Serial
 
             _serialPort.WriteTimeout = timeoutMilli;
             _serialPort.ReadTimeout = timeoutMilli;
+
+            if (type == SerialType.Event)
+            {
+                _serialPort.DataReceived += _serialPort_DataReceived;
+            }
+        }
+
+        private void _serialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            if (DataReceived == null)
+                return;
+
+            var serialPort = (SerialPort)sender;
+            var data = serialPort.ReadExisting();
+            DataReceived(data);
         }
 
         public void Write(string text)
@@ -41,6 +64,11 @@ namespace Communicate.Serial
         /// <returns></returns>
         public async Task<byte[]> ReadAsync(int readLength)
         {
+            if (_serialType == SerialType.Event)
+            {
+                throw new Exception("event is only DataReceived");
+            }
+
             byte[] buffer = new byte[readLength];
 
             await Task.Run(() =>
@@ -62,6 +90,11 @@ namespace Communicate.Serial
         /// <returns></returns>
         public async Task<string> ReadAsync(string last)
         {
+            if (_serialType == SerialType.Event)
+            {
+                throw new Exception("event is only DataReceived");
+            }
+
             string content = string.Empty;
 
             await Task.Run(() =>
@@ -84,6 +117,12 @@ namespace Communicate.Serial
             });
 
             return content;
+        }
+
+        public void Dispose()
+        {
+            _serialPort.Dispose();
+            DataReceived = null;
         }
     }
 }

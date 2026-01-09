@@ -14,5 +14,5 @@ Console.ReadLine();
 
 async Task Run()
 {
-    await SerialCommunicateExample.Run();
+    SerialCommunicateExample.RunEvent();
 }
