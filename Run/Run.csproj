@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Communicate\Communicate.csproj" />
+    <ProjectReference Include="..\HtmlToPdf\HtmlToPdf.csproj" />
     <ProjectReference Include="..\OpenCVNet\OpenCVNet.csproj" />
   </ItemGroup>
 

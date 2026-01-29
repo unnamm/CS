@@ -11,10 +11,15 @@ Console.WriteLine("Hello, World!");
 
 _ = Run();
 
-Console.ReadLine();
+while (true)
+{
+    Thread.Sleep(1000);
+}
 
 async Task Run()
 {
-    await TcpCommunicateExample.Run();
-
+    while (true)
+    {
+        Tiling.Run();
+    }
 }
