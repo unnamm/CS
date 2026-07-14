@@ -15,10 +15,10 @@ namespace DesignPattern.Creational
 
         class Class1 : IPrototype<Class1>
         {
-            private int data = 1;
-            private string data2 = "dd";
+            private int data;
+            private int[] data2;
 
-            public Class1(int data, string data2)
+            public Class1(int data, int[] data2)
             {
                 this.data = data;
                 this.data2 = data2;
@@ -26,15 +26,16 @@ namespace DesignPattern.Creational
 
             public Class1 Clone()
             {
-                return new Class1(data, new string(data2));
+                int[] copy = new int[data2.Length];
+                Array.Copy(data2, copy, data2.Length);
+                return new Class1(data, copy);
             }
         }
 
         public static void Sample()
         {
-            var c1 = new Class1(1, "111");
+            var c1 = new Class1(1, [1, 2, 3]);
             Class1 c2 = c1.Clone();
         }
-
     }
 }
