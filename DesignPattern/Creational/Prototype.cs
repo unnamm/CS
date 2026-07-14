@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DesignPattern.Create
+namespace DesignPattern.Creational
 {
     public class Prototype
     {
@@ -30,7 +30,7 @@ namespace DesignPattern.Create
             }
         }
 
-        public void Sample()
+        public static void Sample()
         {
             var c1 = new Class1(1, "111");
             Class1 c2 = c1.Clone();
