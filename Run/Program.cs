@@ -2,6 +2,7 @@
 
 using Communicate.Serial;
 using Communicate.Tcp;
+using DesignPattern.Behavioral;
 using OpenCVNet;
 using OpenCvSharp;
 using System.Diagnostics;
@@ -18,8 +19,5 @@ while (true)
 
 async Task Run()
 {
-    while (true)
-    {
-        Tiling.Run();
-    }
+    Observer.Sample3();
 }
