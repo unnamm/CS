@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DesignPattern.Structural
 {
-    internal class Proxy
+    public class Proxy2 //delay create
     {
         interface IObj
         {
@@ -18,34 +18,30 @@ namespace DesignPattern.Structural
             public void Set() { }
         }
 
-        class Obj2 : IObj //access limit
-        {
-            private IObj? _obj;
-
-            public Obj2(IObj? obj) => _obj = obj;
-
-            public void Set()
-            {
-                if (_obj == null)
-                    return;
-
-                _obj.Set();
-            }
-        }
-
-        class Obj3 : IObj //delay create
+        class Obj2 : IObj
         {
             private IObj? _obj;
 
             Func<IObj> _factory;
 
-            public Obj3(Func<IObj> factory) => _factory = factory;
+            public Obj2(Func<IObj> factory) => _factory = factory;
 
             public void Set()
             {
                 _obj ??= _factory();
                 _obj.Set();
             }
+        }
+
+        public static void Sample()
+        {
+            Obj2 o2 = new(Build);
+            o2.Set();
+        }
+
+        private static Obj Build()
+        {
+            return new Obj();
         }
     }
 }
