@@ -13,13 +13,16 @@ namespace DesignPattern.Creational
             interface House { }
             class GardenHouse : House { }
             class SwimHouse : House { }
+            /*
+            ...
+            */
         }
 
         class wrong2 //so many parameters
         {
             class House
             {
-                public House(bool isGarden, bool isSwim) { }
+                public House(bool isGarden, bool isSwim /* ... */) { }
             }
         }
 
@@ -32,10 +35,14 @@ namespace DesignPattern.Creational
             public HouseBuilder BuildWall() { return this; }
             public HouseBuilder BuildDoor(int doorCount) { return this; }
             public HouseBuilder BuildWindow() { return this; }
-            public HouseBuilder BuildRoof(bool isColor) { return this; }
+            public HouseBuilder BuildRoof() { return this; }
             public HouseBuilder BuildGarden() { return this; }
             public HouseBuilder BuildSwim(int swimSize) { return this; }
-            public House GetHouse() => _current;
+            public House GetHouse()
+            {
+                //all reset
+                return _current;
+            }
         }
 
         public static void Sample()
@@ -48,10 +55,9 @@ namespace DesignPattern.Creational
                 .BuildSwim(22)
                 .GetHouse();
 
-            builder = new();
             House gardenHouse = builder
                 .BuildWall()
-                .BuildRoof(true)
+                .BuildRoof()
                 .BuildGarden()
                 .GetHouse();
         }

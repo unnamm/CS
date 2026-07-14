@@ -39,7 +39,7 @@ namespace DesignPattern.Creational
         {
             Factory? factory = null;
 
-            if (clientRequest == "Mordern")
+            if (clientRequest == "Modern")
             {
                 factory = new ModernFactory();
             }
@@ -50,7 +50,7 @@ namespace DesignPattern.Creational
 
             if (factory == null)
             {
-                throw new NullReferenceException();
+                throw new ArgumentException(clientRequest);
             }
 
             return (factory.CreateChair(), factory.CreateSofa());
