@@ -24,5 +24,12 @@ namespace DesignPattern.Structural
         {
             public void Go() { }
         }
+
+        public static void Sample()
+        {
+            Legacy l = new();
+            IBehaviour a = new BehaviourAdapter(l);
+            a.Func();
+        }
     }
 }
