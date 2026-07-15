@@ -37,7 +37,14 @@ namespace DesignPattern.Behavioral
             protected override void Open() => Console.WriteLine("open car");
             protected override void Play() => Console.WriteLine("play car");
             protected override bool IsNeedClose() => true;
+        }
 
+        public static void Sample()
+        {
+            Template t = new Game();
+            t.Run();
+            t = new Car();
+            t.Run();
         }
     }
 }

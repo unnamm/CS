@@ -12,12 +12,11 @@ Console.WriteLine("Hello, World!");
 
 _ = Run();
 
-while (true)
-{
-    Thread.Sleep(1000);
-}
+Console.ReadLine();
 
 async Task Run()
 {
-    Observer.Sample3();
+    Strategy.Sample();
+
+    Console.WriteLine("end");
 }
