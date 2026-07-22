@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.8.34511.84
+# Visual Studio Version 18
+VisualStudioVersion = 18.8.12009.203 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Run", "Run\Run.csproj", "{5B513D57-0038-4110-8D70-68E319E8E306}"
 EndProject
@@ -24,8 +24,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandPrompt", "CommandPrompt\CommandPrompt.csproj", "{E80CC988-273F-4FCF-8C9C-F18980CD3465}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communicate", "Communicate\Communicate.csproj", "{A70A7B4F-26B0-4526-90FD-6DAFD590773A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlToPdf", "HtmlToPdf\HtmlToPdf.csproj", "{E8FDCEF8-9816-4273-8EDD-E81DC6DCE939}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,10 +75,6 @@ Global
 		{A70A7B4F-26B0-4526-90FD-6DAFD590773A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A70A7B4F-26B0-4526-90FD-6DAFD590773A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A70A7B4F-26B0-4526-90FD-6DAFD590773A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E8FDCEF8-9816-4273-8EDD-E81DC6DCE939}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E8FDCEF8-9816-4273-8EDD-E81DC6DCE939}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E8FDCEF8-9816-4273-8EDD-E81DC6DCE939}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E8FDCEF8-9816-4273-8EDD-E81DC6DCE939}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
