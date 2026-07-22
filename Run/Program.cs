@@ -16,7 +16,7 @@ Console.ReadLine();
 
 async Task Run()
 {
-    Strategy.Sample();
+    DesignPattern.Structural.Decorator.Sample();
 
     Console.WriteLine("end");
 }
