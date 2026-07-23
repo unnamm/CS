@@ -30,15 +30,11 @@ namespace Communicate.Tcp
         }
         public async Task<byte[]> QueryExactlyAsync(byte[] sendData, uint exactlyLength, CancellationToken token = default)
         {
-            var stream = base.GetStream();
-
             await _lock.WaitAsync(token);
             try
             {
-                await stream.WriteAsync(sendData, token);
-
-                var buffer = new byte[exactlyLength];
-                await stream.ReadExactlyAsync(buffer, token);
+                await base.WriteAsync(sendData, token);
+                var buffer = await base.ReadExactlyAsync(exactlyLength, token);
                 return buffer;
             }
             finally

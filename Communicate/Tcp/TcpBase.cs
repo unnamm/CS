@@ -44,5 +44,13 @@ namespace Communicate.Tcp
 
             return readBuffer;
         }
+        protected async Task<byte[]> ReadExactlyAsync(uint length, CancellationToken token)
+        {
+            var stream = _client.GetStream();
+
+            var buffer = new byte[length];
+            await stream.ReadExactlyAsync(buffer, token);
+            return buffer;
+        }
     }
 }

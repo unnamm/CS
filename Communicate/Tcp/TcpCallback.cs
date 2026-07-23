@@ -13,7 +13,7 @@ namespace Communicate.Tcp
         public event Action<byte[]>? DataReceived;
         public event Action<Exception>? ErrorReceived;
 
-        private readonly int? _readLength;
+        private readonly uint? _readLength;
 
         private CancellationTokenSource _cancelSource = new();
 
@@ -23,7 +23,7 @@ namespace Communicate.Tcp
         /// <param name="ip"></param>
         /// <param name="port"></param>
         /// <param name="readLength">수신 데이터의 길이 고정, 이 데이터의 길이가 와야 패킷 완성</param>
-        public TcpCallback(string ip, int port, int? readLength = null) : base(ip, port)
+        public TcpCallback(string ip, int port, uint? readLength = null) : base(ip, port)
         {
             _readLength = readLength;
         }
@@ -39,7 +39,6 @@ namespace Communicate.Tcp
             Close();
             _cancelSource.Dispose();
             base.Dispose();
-            GC.SuppressFinalize(this);
         }
 
         public override async Task ConnectAsync(CancellationToken token)
@@ -63,8 +62,6 @@ namespace Communicate.Tcp
         {
             try
             {
-                var stream = base.GetStream();
-
                 while (true)
                 {
                     var readBuffer = await base.ReadAsync(token);
@@ -82,12 +79,9 @@ namespace Communicate.Tcp
         {
             try
             {
-                var stream = base.GetStream();
-
                 while (true)
                 {
-                    var buffer = new byte[_readLength!.Value];
-                    await stream.ReadExactlyAsync(buffer, token);
+                    var buffer = await base.ReadExactlyAsync(_readLength!.Value, token);
                     DataReceived?.Invoke(buffer);
                 }
             }
