@@ -19,7 +19,7 @@ using System.Text;
 
 namespace Configuration.Ini
 {
-    public abstract class ConfigBase
+    public abstract class IniBase
     {
         /// <summary>
         /// read value
@@ -49,7 +49,7 @@ namespace Configuration.Ini
         private readonly int _capacity;
         private readonly string _iniFile;
 
-        public ConfigBase(string filePath)
+        public IniBase(string filePath)
         {
             if (filePath.Contains(".ini") == false)
             {

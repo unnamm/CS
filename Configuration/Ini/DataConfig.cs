@@ -1,6 +1,6 @@
 ﻿namespace Configuration.Ini
 {
-    public class DataConfig : ConfigBase
+    public class DataConfig : IniBase
     {
         public int ValueInt;
         public bool ValueBool;
