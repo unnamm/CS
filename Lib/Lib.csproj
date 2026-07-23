@@ -11,10 +11,4 @@
 
 	</PropertyGroup>
 
-	<ItemGroup>
-		<None Update="Config\DataConfig.ini">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
-
 </Project>
