@@ -1,5 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using Configuration.Yaml;
+
 Console.WriteLine("Hello, World!");
 
 _ = Run();
@@ -10,8 +12,7 @@ async Task Run()
 {
     try
     {
-        var c = new Configuration.Ini.DataConfig(@"Ini\DataConfig.ini");
-
+        var config = new DataConfig(@"Yaml\DataConfig.yaml");
     }
     catch (Exception ex)
     {

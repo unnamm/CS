@@ -1,0 +1,28 @@
+﻿int: 1
+double: 3.5
+string1: message
+string2: 'message message'
+string3: "message\nmessage"
+string4: |
+ first line
+ second line
+ third line
+array: [1, 2, 3]
+array2:
+ - 3
+ - 4
+ - 5
+null1: null
+null2: ~
+null3: 
+mapping1:
+ data1: 1
+ data2: 2
+mapping2: {data1: 3, data2: 4}
+list:
+ - data1: 1
+   data2: 2
+   data3: 3
+ - data1: 4
+   data2: 5
+   data3: 6
