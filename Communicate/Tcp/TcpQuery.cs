@@ -9,7 +9,7 @@ namespace Communicate.Tcp
 {
     public class TcpQuery : TcpBase
     {
-        private readonly SemaphoreSlim _lock = new SemaphoreSlim(0, 1);
+        private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
 
         public TcpQuery(string ip, int port) : base(ip, port) { }
 
@@ -19,12 +19,9 @@ namespace Communicate.Tcp
 
             try
             {
-                var readBuffer = await ReadAsync(token);
+                await base.WriteAsync(sendData, token);
+                var readBuffer = await base.ReadAsync(token);
                 return readBuffer;
-            }
-            catch
-            {
-                throw;
             }
             finally
             {
@@ -44,14 +41,16 @@ namespace Communicate.Tcp
                 await stream.ReadExactlyAsync(buffer, token);
                 return buffer;
             }
-            catch
-            {
-                throw;
-            }
             finally
             {
                 _lock.Release();
             }
+        }
+
+        public override void Dispose()
+        {
+            _lock.Dispose();
+            base.Dispose();
         }
     }
 }

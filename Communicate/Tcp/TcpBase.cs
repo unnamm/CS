@@ -27,6 +27,12 @@ namespace Communicate.Tcp
 
         public virtual Task ConnectAsync(CancellationToken token) => _client.ConnectAsync(_ip, _port, token).AsTask();
 
+        protected ValueTask WriteAsync(byte[] data, CancellationToken token)
+        {
+            var stream = _client.GetStream();
+            return stream.WriteAsync(data, token);
+        }
+
         protected async Task<byte[]> ReadAsync(CancellationToken token)
         {
             var stream = _client.GetStream();

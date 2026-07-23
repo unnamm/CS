@@ -67,7 +67,7 @@ namespace Communicate.Tcp
 
                 while (true)
                 {
-                    var readBuffer = await ReadAsync(token);
+                    var readBuffer = await base.ReadAsync(token);
                     DataReceived?.Invoke(readBuffer);
                 }
             }
