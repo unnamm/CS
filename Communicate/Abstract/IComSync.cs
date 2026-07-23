@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Communicate.Abstract
 {
-    internal interface IComSync : ICom
+    public interface IComSync : ICom
     {
         void Connect();
     }

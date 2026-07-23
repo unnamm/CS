@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Communicate.Abstract
 {
-    internal interface ICom : IDisposable
+    public interface ICom : IDisposable
     {
         bool IsConnected { get; }
     }

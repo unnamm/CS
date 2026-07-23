@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Communicate.Abstract;
+using System;
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Communicate.Serial
 {
-    public class SerialCallback : SerialBase
+    public class SerialCallback : SerialBase, ICallback
     {
         public event Action<byte[]>? DataReceived;
         public event Action<Exception>? ErrorReceived;

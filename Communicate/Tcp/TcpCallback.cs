@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Communicate.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Communicate.Tcp
 {
-    public class TcpCallback : TcpBase
+    public class TcpCallback : TcpBase, ICallback
     {
         public event Action<byte[]>? DataReceived;
         public event Action<Exception>? ErrorReceived;
