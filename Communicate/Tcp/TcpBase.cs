@@ -10,8 +10,7 @@ namespace Communicate.Tcp
 {
     public abstract class TcpBase : IComAsync
     {
-        protected readonly TcpClient _client = new();
-
+        private readonly TcpClient _client = new();
         private readonly string _ip;
         private readonly int _port;
 
@@ -22,6 +21,7 @@ namespace Communicate.Tcp
         }
 
         public bool IsConnected => _client.Connected;
+        protected Stream GetStream() => _client.GetStream();
         public virtual void Close() => _client.Close();
         public virtual void Dispose()
         {

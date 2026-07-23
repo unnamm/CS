@@ -62,7 +62,7 @@ namespace Communicate.Tcp
         {
             try
             {
-                var stream = _client.GetStream();
+                var stream = base.GetStream();
 
                 while (true)
                 {
@@ -84,7 +84,7 @@ namespace Communicate.Tcp
         {
             try
             {
-                var stream = _client.GetStream();
+                var stream = base.GetStream();
 
                 while (true)
                 {

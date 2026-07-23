@@ -13,7 +13,7 @@ namespace Communicate.Tcp
 
         public async Task<byte[]> QueryAsync(byte[] sendData, CancellationToken token = default)
         {
-            var stream = _client.GetStream();
+            var stream = base.GetStream();
             await stream.WriteAsync(sendData, token);
 
             var buffer = new byte[byte.MaxValue];
@@ -26,7 +26,7 @@ namespace Communicate.Tcp
         }
         public async Task<byte[]> QueryExactlyAsync(byte[] sendData, uint exactlyLength, CancellationToken token = default)
         {
-            var stream = _client.GetStream();
+            var stream = base.GetStream();
             await stream.WriteAsync(sendData, token);
 
             var buffer = new byte[exactlyLength];
