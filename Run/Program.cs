@@ -13,6 +13,7 @@ async Task Run()
     try
     {
         var config = new DataConfig(@"Yaml\DataConfig.yaml");
+        config.Save();
     }
     catch (Exception ex)
     {
