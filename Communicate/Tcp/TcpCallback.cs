@@ -67,10 +67,7 @@ namespace Communicate.Tcp
 
                 while (true)
                 {
-                    var buffer = new byte[byte.MaxValue];
-                    var readLength = await stream.ReadAsync(buffer, token);
-                    var readBuffer = new byte[readLength];
-                    Array.Copy(buffer, readBuffer, readLength);
+                    var readBuffer = await ReadAsync(token);
                     DataReceived?.Invoke(readBuffer);
                 }
             }

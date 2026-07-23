@@ -23,12 +23,20 @@ namespace Communicate.Tcp
         public bool IsConnected => _client.Connected;
         protected Stream GetStream() => _client.GetStream();
         public virtual void Close() => _client.Close();
-        public virtual void Dispose()
-        {
-            _client.Dispose();
-            GC.SuppressFinalize(this);
-        }
+        public virtual void Dispose() => _client.Dispose();
 
         public virtual Task ConnectAsync(CancellationToken token) => _client.ConnectAsync(_ip, _port, token).AsTask();
+
+        protected async Task<byte[]> ReadAsync(CancellationToken token)
+        {
+            var stream = _client.GetStream();
+
+            var buffer = new byte[byte.MaxValue];
+            var readLength = await stream.ReadAsync(buffer, token);
+            var readBuffer = new byte[readLength];
+            Array.Copy(buffer, readBuffer, readLength);
+
+            return readBuffer;
+        }
     }
 }

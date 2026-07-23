@@ -37,15 +37,14 @@ namespace Communicate.Serial
         {
             try
             {
-                var serial = (SerialPort)sender;
                 byte[] receiveBuffer;
                 if (_end != null)
                 {
-                    receiveBuffer = ReadPacket(serial, _end.Value);
+                    receiveBuffer = base.ReadPacket(_end.Value);
                 }
                 else if (_readLength != null)
                 {
-                    receiveBuffer = ReadPacket(serial, _readLength.Value);
+                    receiveBuffer = base.ReadPacket(_readLength.Value);
                 }
                 else
                 {

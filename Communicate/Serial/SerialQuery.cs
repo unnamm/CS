@@ -22,7 +22,7 @@ namespace Communicate.Serial
             lock (_lock)
             {
                 _client.Write(data);
-                return ReadPacket(_client, end);
+                return base.ReadPacket(end);
             }
         }
         public byte[] Query(string data, int length)
@@ -30,7 +30,7 @@ namespace Communicate.Serial
             lock (_lock)
             {
                 _client.Write(data);
-                return ReadPacket(_client, length);
+                return base.ReadPacket(length);
             }
         }
         public byte[] Query(byte[] data, char end)
@@ -38,7 +38,7 @@ namespace Communicate.Serial
             lock (_lock)
             {
                 _client.Write(data, 0, data.Length);
-                return ReadPacket(_client, end);
+                return base.ReadPacket(end);
             }
         }
         public byte[] Query(byte[] data, int length)
@@ -46,7 +46,7 @@ namespace Communicate.Serial
             lock (_lock)
             {
                 _client.Write(data, 0, data.Length);
-                return ReadPacket(_client, length);
+                return base.ReadPacket(length);
             }
         }
     }

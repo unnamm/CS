@@ -9,29 +9,49 @@ namespace Communicate.Tcp
 {
     public class TcpQuery : TcpBase
     {
+        private readonly SemaphoreSlim _lock = new SemaphoreSlim(0, 1);
+
         public TcpQuery(string ip, int port) : base(ip, port) { }
 
         public async Task<byte[]> QueryAsync(byte[] sendData, CancellationToken token = default)
         {
-            var stream = base.GetStream();
-            await stream.WriteAsync(sendData, token);
+            await _lock.WaitAsync(token);
 
-            var buffer = new byte[byte.MaxValue];
-            var readLength = await stream.ReadAsync(buffer, token);
-
-            byte[] readBuffer = new byte[readLength];
-            Array.Copy(buffer, readBuffer, readLength);
-
-            return readBuffer;
+            try
+            {
+                var readBuffer = await ReadAsync(token);
+                return readBuffer;
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                _lock.Release();
+            }
         }
         public async Task<byte[]> QueryExactlyAsync(byte[] sendData, uint exactlyLength, CancellationToken token = default)
         {
             var stream = base.GetStream();
-            await stream.WriteAsync(sendData, token);
 
-            var buffer = new byte[exactlyLength];
-            await stream.ReadExactlyAsync(buffer, token);
-            return buffer;
+            await _lock.WaitAsync(token);
+            try
+            {
+                await stream.WriteAsync(sendData, token);
+
+                var buffer = new byte[exactlyLength];
+                await stream.ReadExactlyAsync(buffer, token);
+                return buffer;
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                _lock.Release();
+            }
         }
     }
 }

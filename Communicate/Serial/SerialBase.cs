@@ -19,16 +19,16 @@ namespace Communicate.Serial
         public void Close() => _client.Close();
         public virtual void Dispose() => _client.Dispose();
 
-        protected static byte[] ReadPacket(SerialPort serial, char end) => ReadPacket(serial, (byte)end);
+        protected byte[] ReadPacket(char end) => ReadPacket((byte)end);
 
-        protected static byte[] ReadPacket(SerialPort serial, byte end)
+        protected byte[] ReadPacket(byte end)
         {
             List<byte> readList = [];
 
             while (true)
             {
                 var buffer = new byte[byte.MaxValue];
-                var readLength = serial.Read(buffer, 0, byte.MaxValue);
+                var readLength = _client.Read(buffer, 0, byte.MaxValue);
 
                 var endIndex = Array.IndexOf(buffer, end, 0, readLength);
                 if (endIndex != -1) //마지막 문자가 있으면
@@ -47,13 +47,13 @@ namespace Communicate.Serial
             }
         }
 
-        protected static byte[] ReadPacket(SerialPort serial, int length)
+        protected byte[] ReadPacket(int length)
         {
             byte[] buffer = new byte[length];
             var readIndex = 0;
             while (true)
             {
-                readIndex += serial.Read(buffer, readIndex, length - readIndex);
+                readIndex += _client.Read(buffer, readIndex, length - readIndex);
                 if (length == readIndex)
                 {
                     return buffer;
