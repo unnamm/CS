@@ -10,8 +10,20 @@ namespace Database
         public Database(DbConnection connect) => _connect = connect;
 
         public bool IsConnected => _connect.State == ConnectionState.Open;
-        public Task ConnectAsync(CancellationToken token) => _connect.OpenAsync(token);
-        public void CloseAsync() => _connect.CloseAsync();
+        public Task ConnectAsync(CancellationToken token = default)
+        {
+            if (string.IsNullOrWhiteSpace(_connect.DataSource))
+                throw new Exception("path is empty");
+
+            if (File.Exists(_connect.DataSource))
+                Console.WriteLine($"open file: {_connect.DataSource}");
+            else
+                Console.WriteLine($"create new file: {_connect.DataSource}");
+
+            return _connect.OpenAsync(token);
+        }
+
+        public Task CloseAsync() => _connect.CloseAsync();
         public void Dispose() => _connect.Dispose();
 
         /// <summary>
