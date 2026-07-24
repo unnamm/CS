@@ -10,7 +10,9 @@ async Task Run()
 {
     try
     {
-        
+        Configuration.Json.DataConfig d = new(@"Json\DataConfig.json");
+        d.DataInt = 332;
+        d.Save();
     }
     catch (Exception ex)
     {
