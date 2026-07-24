@@ -1,0 +1,8 @@
+{
+  "string": "data1",
+  "integer": 42,
+  "double": 3.1,
+  "bool": true,
+  "array": [ 1, 2, 3 ],
+  "pair": {"1": "value1", "2": "value2"}
+}
