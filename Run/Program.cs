@@ -10,8 +10,9 @@ async Task Run()
 {
     try
     {
-        Configuration.Yaml.DataConfig d = new(@"Yaml\DataConfig.yaml");
-        
+        Configuration.Ini.DataConfig d = new(@"Ini\DataConfig.ini");
+        d.Data4ValueInt = [1, 2, 3, 4, 5];
+        d.Save();
     }
     catch (Exception ex)
     {

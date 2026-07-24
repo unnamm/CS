@@ -1,34 +1,31 @@
-﻿namespace Configuration.Ini
+namespace Configuration.Ini
 {
     public class DataConfig : IniBase
     {
-        public int ValueInt;
-        public bool ValueBool;
-        public string ValueString = string.Empty;
-        public string[] ValueArray = [];
+        public DataConfig(string filePath) : base(filePath) { }
 
-        public DataConfig(string filePath) : base(filePath)
-        {
-            base.Get(ref ValueInt, "data1");
-            base.Get(ref ValueBool, "data1");
-            base.Get(ref ValueString, "data1");
+        [IniValue("data1", "ValueInt")]
+        public int Data1ValueInt { get; set; }
 
-            base.Get(ref ValueInt, "data2");
-            base.Get(ref ValueBool, "data2");
-            base.Get(ref ValueString, "data2");
+        [IniValue("data1", "ValueBool")]
+        public bool Data1ValueBool { get; set; }
 
-            base.Get(ref ValueArray, "data3");
-        }
+        [IniValue("data1", "ValueString")]
+        public string? Data1ValueString { get; set; }
 
-        public void Save()
-        {
-            base.Set(ValueInt, "data1");
-            base.Set(ValueBool, "data1");
-            base.Set(ValueString, "data1");
+        [IniValue("data2", "ValueInt")]
+        public int Data2ValueInt { get; set; }
 
-            base.Set(ValueInt, "data2");
-            base.Set(ValueBool, "data2");
-            base.Set(ValueString, "data2");
-        }
+        [IniValue("data2", "ValueBool")]
+        public bool Data2ValueBool { get; set; }
+
+        [IniValue("data2", "ValueString")]
+        public string? Data2ValueString { get; set; }
+
+        [IniValue("data3")]
+        public string[]? Data3Array { get; set; }
+
+        [IniValue("data4")]
+        public int[]? Data4ValueInt { get; set; }
     }
 }
