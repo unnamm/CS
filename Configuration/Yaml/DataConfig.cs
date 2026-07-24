@@ -5,7 +5,7 @@ using YamlDotNet.Serialization;
 
 namespace Configuration.Yaml
 {
-    public class DataConfig : YamlBase<DataConfig>
+    public class DataConfig : YamlBase
     {
         public DataConfig(string yamlPath) : base(yamlPath) { }
 

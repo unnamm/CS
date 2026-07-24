@@ -5,7 +5,7 @@ using YamlDotNet.Serialization;
 
 namespace Configuration.Yaml
 {
-    public abstract class YamlBase<T> where T : YamlBase<T>
+    public abstract class YamlBase
     {
         private readonly string _filePath;
 
@@ -29,15 +29,15 @@ namespace Configuration.Yaml
                 .WithObjectFactory(Factory)
                 .Build();
 
-            deserializer.Deserialize<T>(yaml);
+            deserializer.Deserialize(yaml, GetType());
         }
 
-        private object Factory(Type type) => type == typeof(T) ? this : Activator.CreateInstance(type)!;
+        private object Factory(Type t) => t == GetType() ? this : Activator.CreateInstance(t)!;
 
         public void Save()
         {
             var serializer = new SerializerBuilder().Build();
-            string yaml = serializer.Serialize((T)(object)this);
+            string yaml = serializer.Serialize(this, GetType());
             File.WriteAllText(_filePath, yaml);
         }
     }

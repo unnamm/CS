@@ -10,9 +10,8 @@ async Task Run()
 {
     try
     {
-        Configuration.Json.DataConfig d = new(@"Json\DataConfig.json");
-        d.DataInt = 332;
-        d.Save();
+        Configuration.Yaml.DataConfig d = new(@"Yaml\DataConfig.yaml");
+        
     }
     catch (Exception ex)
     {
