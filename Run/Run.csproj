@@ -14,10 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Communicate\Communicate.csproj" />
-    <ProjectReference Include="..\Configuration\Configuration.csproj" />
-    <ProjectReference Include="..\Database\Database.csproj" />
-    <ProjectReference Include="..\DesignPattern\DesignPattern.csproj" />
-    <ProjectReference Include="..\DrawingNet\DrawingNet.csproj" />
   </ItemGroup>
 
 </Project>
