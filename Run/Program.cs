@@ -1,5 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using Hosting;
+
 Console.WriteLine("Hello, World!");
 _ = Run();
 Console.ReadLine();
@@ -8,10 +10,7 @@ async Task Run()
 {
     try
     {
-        Communicate.Http.Client c = new();
-        var response = await c.SendAsync("https");
-
-        var r = await response.Content.ReadAsStringAsync();
+        Log.Sample();
     }
     catch (Exception ex)
     {
