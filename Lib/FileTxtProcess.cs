@@ -1,5 +1,4 @@
-﻿
-namespace Lib.CS
+﻿namespace Lib
 {
     internal class FileTxtProcess
     {

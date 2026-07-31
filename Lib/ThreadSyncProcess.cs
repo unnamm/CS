@@ -2,7 +2,7 @@
 using System.Numerics;
 using System.Threading;
 
-namespace Lib.CS
+namespace Lib
 {
     internal class ThreadSyncProcess
     {

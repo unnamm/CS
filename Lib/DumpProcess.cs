@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Lib.CS
+namespace Lib
 {
     internal class DumpProcess
     {

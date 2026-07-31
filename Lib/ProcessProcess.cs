@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Lib.CS
+namespace Lib
 {
     internal class ProcessProcess
     {

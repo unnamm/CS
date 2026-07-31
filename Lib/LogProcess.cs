@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Lib.CS
+namespace Lib
 {
     internal class LogProcess
     {

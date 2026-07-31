@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Lib.CS
+namespace Lib
 {
     internal class RegexProcess
     {

@@ -1,4 +1,4 @@
-﻿namespace Lib.CS
+﻿namespace Lib
 {
     internal class StringFormatProcess
     {
