@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.Data.Common;
 
-namespace Database
+namespace Database.Abstracts
 {
     public abstract class Database
     {

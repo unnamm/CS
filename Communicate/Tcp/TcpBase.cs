@@ -1,5 +1,4 @@
-﻿using Communicate.Abstract;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -21,7 +20,6 @@ namespace Communicate.Tcp
         }
 
         public bool IsConnected => _client.Connected;
-        protected Stream GetStream() => _client.GetStream();
         public virtual void Close() => _client.Close();
         public virtual void Dispose() => _client.Dispose();
 

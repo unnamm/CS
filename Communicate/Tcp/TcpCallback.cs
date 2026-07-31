@@ -1,8 +1,6 @@
-﻿using Communicate.Abstract;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,7 +20,7 @@ namespace Communicate.Tcp
         /// </summary>
         /// <param name="ip"></param>
         /// <param name="port"></param>
-        /// <param name="readLength">수신 데이터의 길이 고정, 이 데이터의 길이가 와야 패킷 완성</param>
+        /// <param name="readLength">fix read length</param>
         public TcpCallback(string ip, int port, uint? readLength = null) : base(ip, port)
         {
             _readLength = readLength;
@@ -48,14 +46,7 @@ namespace Communicate.Tcp
             _cancelSource.Cancel();
             _cancelSource = new();
 
-            if (_readLength == null)
-            {
-                _ = RunAsync(_cancelSource.Token);
-            }
-            else
-            {
-                _ = ReadExactlyAsync(_cancelSource.Token);
-            }
+            _ = RunAsync(_cancelSource.Token);
         }
 
         private async Task RunAsync(CancellationToken token)
@@ -64,24 +55,15 @@ namespace Communicate.Tcp
             {
                 while (true)
                 {
-                    var readBuffer = await base.ReadAsync(token);
-                    DataReceived?.Invoke(readBuffer);
-                }
-            }
-            catch (Exception ex)
-            {
-                Close();
-                ErrorReceived?.Invoke(ex);
-            }
-        }
-
-        private async Task ReadExactlyAsync(CancellationToken token)
-        {
-            try
-            {
-                while (true)
-                {
-                    var buffer = await base.ReadExactlyAsync(_readLength!.Value, token);
+                    byte[] buffer;
+                    if (_readLength == null)
+                    {
+                        buffer = await base.ReadAsync(token);
+                    }
+                    else
+                    {
+                        buffer = await base.ReadExactlyAsync(_readLength.Value, token);
+                    }
                     DataReceived?.Invoke(buffer);
                 }
             }
