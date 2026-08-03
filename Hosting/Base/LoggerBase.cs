@@ -12,7 +12,7 @@ namespace Hosting.Base
         private readonly string _categoryName;
         private readonly IEntrySink _provider;
         private readonly Func<IExternalScopeProvider?> _scopeProviderAccessor;
-
+        
         public LoggerBase(string categoryName, IEntrySink provider, Func<IExternalScopeProvider?> scopeProviderAccessor)
         {
             _categoryName = categoryName.Contains('.') ? categoryName[(categoryName.LastIndexOf('.') + 1)..] : categoryName;

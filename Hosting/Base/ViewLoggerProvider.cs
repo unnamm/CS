@@ -1,5 +1,4 @@
-﻿using Hosting.Base;
-using Hosting.Interface;
+﻿using Hosting.Interface;
 using Hosting.Model;
 using Microsoft.Extensions.Logging;
 using System;
@@ -7,7 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 
-namespace Hosting.ViewLog
+namespace Hosting.Base
 {
     internal class ViewLoggerProvider : ILoggerProvider, ISupportExternalScope, IEntrySink
     {

@@ -37,7 +37,7 @@ namespace Hosting.Model
 
             var line = $"{Timestamp:HH:mm:ss} [{levelStr}] {Category}[{EventId}]: {Message}{(Scope != null ? $" => {Scope}" : "")}{Environment.NewLine}";
             if (Exception != null)
-                line += Environment.NewLine + Exception + Environment.NewLine;
+                line += Exception + Environment.NewLine;
 
             return line;
         }

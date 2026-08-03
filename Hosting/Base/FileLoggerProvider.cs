@@ -1,12 +1,11 @@
-﻿using Hosting.Base;
-using Hosting.Interface;
+﻿using Hosting.Interface;
 using Hosting.Model;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Hosting.FileLog
+namespace Hosting.Base
 {
     internal class FileLoggerProvider : ILoggerProvider, ISupportExternalScope, IEntrySink
     {
