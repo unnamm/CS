@@ -5,10 +5,11 @@ using System.Text;
 
 namespace Hosting.FileLog
 {
-    internal class FileLoggerProvider : ILoggerProvider
+    internal class FileLoggerProvider : ILoggerProvider, ISupportExternalScope
     {
         private readonly string _filePath;
         private readonly object _lock = new();
+        private IExternalScopeProvider? _scopeProvider;
 
         public FileLoggerProvider(string filePath)
         {
@@ -20,8 +21,8 @@ namespace Hosting.FileLog
             }
         }
 
-        public ILogger CreateLogger(string categoryName) => new FileLogger(categoryName, _filePath, _lock);
-
+        public ILogger CreateLogger(string categoryName) => new FileLogger(categoryName, _filePath, _lock, () => _scopeProvider);
+        public void SetScopeProvider(IExternalScopeProvider scopeProvider) => _scopeProvider = scopeProvider;
         public void Dispose() { }
     }
 }
