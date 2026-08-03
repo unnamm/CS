@@ -1,4 +1,6 @@
-﻿using Hosting.Model;
+﻿using Hosting.Base;
+using Hosting.Interface;
+using Hosting.Model;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -7,7 +9,7 @@ using System.Text;
 
 namespace Hosting.ViewLog
 {
-    internal class ViewLoggerProvider : ILoggerProvider, ISupportExternalScope
+    internal class ViewLoggerProvider : ILoggerProvider, ISupportExternalScope, IEntrySink
     {
         private readonly Action<Action> _uiInvoker;
         private IExternalScopeProvider? _scopeProvider;
@@ -32,7 +34,7 @@ namespace Hosting.ViewLog
         }
 
         public void SetScopeProvider(IExternalScopeProvider scopeProvider) => _scopeProvider = scopeProvider;
-        public ILogger CreateLogger(string categoryName) => new ViewLogger(categoryName, this, () => _scopeProvider);
+        public ILogger CreateLogger(string categoryName) => new LoggerBase(categoryName, this, () => _scopeProvider);
         public void Dispose() { }
     }
 }

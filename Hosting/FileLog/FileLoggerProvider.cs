@@ -1,11 +1,14 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Hosting.Base;
+using Hosting.Interface;
+using Hosting.Model;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Hosting.FileLog
 {
-    internal class FileLoggerProvider : ILoggerProvider, ISupportExternalScope
+    internal class FileLoggerProvider : ILoggerProvider, ISupportExternalScope, IEntrySink
     {
         private readonly string _filePath;
         private readonly object _lock = new();
@@ -21,15 +24,15 @@ namespace Hosting.FileLog
             }
         }
 
-        public void Add(string line)
+        public void Add(LogEntry entry)
         {
             lock (_lock)
             {
-                File.AppendAllText(_filePath, line + Environment.NewLine);
+                File.AppendAllText(_filePath, entry.ToString());
             }
         }
 
-        public ILogger CreateLogger(string categoryName) => new FileLogger(categoryName, this, () => _scopeProvider);
+        public ILogger CreateLogger(string categoryName) => new LoggerBase(categoryName, this, () => _scopeProvider);
         public void SetScopeProvider(IExternalScopeProvider scopeProvider) => _scopeProvider = scopeProvider;
         public void Dispose() { }
     }

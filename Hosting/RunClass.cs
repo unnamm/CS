@@ -28,6 +28,8 @@ namespace Hosting
             _c.Scope();
             _c.LoggerMessage("high");
             _t.Print();
+
+            var count = _logs.Count;
         }
     }
 }

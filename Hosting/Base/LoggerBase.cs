@@ -1,23 +1,23 @@
-﻿using Hosting.Model;
+﻿using Hosting.Interface;
+using Hosting.Model;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Hosting.Abstract
+namespace Hosting.Base
 {
-    internal abstract class LoggerBase<T> : ILogger
+    internal class LoggerBase : ILogger
     {
-        protected readonly T _provider;
-
         private readonly string _categoryName;
+        private readonly IEntrySink _provider;
         private readonly Func<IExternalScopeProvider?> _scopeProviderAccessor;
 
-        public LoggerBase(string categoryName, T provider, Func<IExternalScopeProvider?> scopeProviderAccessor)
+        public LoggerBase(string categoryName, IEntrySink provider, Func<IExternalScopeProvider?> scopeProviderAccessor)
         {
             _categoryName = categoryName.Contains('.') ? categoryName[(categoryName.LastIndexOf('.') + 1)..] : categoryName;
-            _provider = provider;
             _scopeProviderAccessor = scopeProviderAccessor;
+            _provider = provider;
         }
 
         public IDisposable? BeginScope<TState>(TState state) where TState : notnull => _scopeProviderAccessor()?.Push(state);
@@ -38,9 +38,7 @@ namespace Hosting.Abstract
                 Exception = exception
             };
 
-            Write(entry);
+            _provider.Add(entry);
         }
-
-        protected abstract void Write(LogEntry entry);
     }
 }

@@ -26,9 +26,9 @@ namespace Hosting
                 .AddProvider(viewProvider)
                 .AddSimpleConsole(o => o.IncludeScopes = true); //default is false
             builder.Services
+                .AddSingleton(viewProvider) //add ui log provider
                 .AddSingleton<SingletonClass>()
                 .AddTransient<TransientClass>()
-                .AddSingleton(viewProvider)
                 .AddHostedService<RunClass>();
             using var host = builder.Build();
             await host.RunAsync(); //run IHostedService.StartAsync()
