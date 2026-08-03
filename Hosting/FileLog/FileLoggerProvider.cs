@@ -21,7 +21,15 @@ namespace Hosting.FileLog
             }
         }
 
-        public ILogger CreateLogger(string categoryName) => new FileLogger(categoryName, _filePath, _lock, () => _scopeProvider);
+        public void Add(string line)
+        {
+            lock (_lock)
+            {
+                File.AppendAllText(_filePath, line + Environment.NewLine);
+            }
+        }
+
+        public ILogger CreateLogger(string categoryName) => new FileLogger(categoryName, this, () => _scopeProvider);
         public void SetScopeProvider(IExternalScopeProvider scopeProvider) => _scopeProvider = scopeProvider;
         public void Dispose() { }
     }

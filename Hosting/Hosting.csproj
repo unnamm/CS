@@ -10,8 +10,4 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.10" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ViewLog\" />
-  </ItemGroup>
-
 </Project>

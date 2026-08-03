@@ -5,17 +5,16 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Hosting.FileLog
+namespace Hosting.ViewLog
 {
-    internal class FileLogger : LoggerBase<FileLoggerProvider>
+    internal class ViewLogger : LoggerBase<ViewLoggerProvider>
     {
-        public FileLogger(string categoryName, FileLoggerProvider provider, Func<IExternalScopeProvider?> scopeProviderAccessor)
+        public ViewLogger(string categoryName, ViewLoggerProvider provider, Func<IExternalScopeProvider?> scopeProviderAccessor)
             : base(categoryName, provider, scopeProviderAccessor) { }
 
         protected override void Write(LogEntry entry)
         {
-            var line = entry.ToString();
-            _provider.Add(line);
+            _provider.Add(entry);
         }
     }
 }
