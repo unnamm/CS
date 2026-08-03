@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Communicate\Communicate.csproj" />
     <ProjectReference Include="..\Hosting\Hosting.csproj" />
+    <ProjectReference Include="..\Lib\Lib.csproj" />
   </ItemGroup>
 
 </Project>

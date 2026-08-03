@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lib
 {
-    [Obsolete("your message")]
+    [Obsolete]
     [My(1, 2)]
     internal class AttributeProcess
     {

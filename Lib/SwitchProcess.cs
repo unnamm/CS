@@ -24,6 +24,23 @@ namespace Lib
 
         public void Run(int value) //run void function
         {
+            Action action = value switch
+            {
+                1 => run1,
+                2 => run2,
+                3 => run3,
+                _ => throw new NotImplementedException()
+            };
+            action();
+
+            ((Action)(value switch
+            {
+                1 => run1,
+                2 => run2,
+                3 => run3,
+                _ => throw new NotImplementedException()
+            }))();
+
             (value switch
             {
                 1 => (Action)run1, //need (Action)

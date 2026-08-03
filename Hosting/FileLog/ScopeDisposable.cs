@@ -10,7 +10,8 @@ namespace Hosting.FileLog
         public ScopeDisposable(Stack<object> stack) => _stack = stack;
         public void Dispose()
         {
-            if (_stack.Count > 0) _stack.Pop();
+            if (_stack.Count > 0)
+                _stack.Pop();
         }
     }
 }

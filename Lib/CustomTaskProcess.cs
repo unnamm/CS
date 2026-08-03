@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lib
 {
-    internal class CustomTaskProcess
+    public class CustomTaskProcess
     {
         private MyAwaiter _awaiter;
 
@@ -44,7 +44,7 @@ namespace Lib
     /// <summary>
     /// custom awaiter
     /// </summary>
-    internal class MyAwaiter : System.Runtime.CompilerServices.INotifyCompletion
+    public class MyAwaiter : System.Runtime.CompilerServices.INotifyCompletion
     {
         public Action? CompleteAction;
 
