@@ -10,7 +10,7 @@ async Task Run()
 {
     try
     {
-        Log.Sample();
+        await Main.Sample();
     }
     catch (Exception ex)
     {
