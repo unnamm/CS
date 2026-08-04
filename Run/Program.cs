@@ -3,19 +3,13 @@
 using Hosting;
 
 Console.WriteLine("Hello, World!");
-_ = Run();
-Console.ReadLine();
-
-async Task Run()
+try
 {
-    try
-    {
-        await Main.Sample();
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine(ex);
-    }
-
-    Console.WriteLine("end");
+    await Main.Sample();
 }
+catch (Exception ex)
+{
+    Console.WriteLine(ex);
+}
+
+Console.WriteLine("goodbye, world!");

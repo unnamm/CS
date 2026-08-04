@@ -16,7 +16,7 @@ namespace Hosting.Base
         public ObservableCollection<LogEntry> Logs { get; } = [];
         public int MaxCount;
 
-        public ViewLoggerProvider(Action<Action> invoker, int maxCount = 1000)
+        public ViewLoggerProvider(Action<Action> invoker, int maxCount = 100)
         {
             _uiInvoker = invoker;
             MaxCount = maxCount;
