@@ -31,6 +31,8 @@ namespace Hosting
                 .AddHostedService<RunClass>();
             using var host = builder.Build();
             await host.RunAsync(); //run IHostedService.StartAsync()
+
+            Console.WriteLine("push Ctrl+C");
         }
     }
 }

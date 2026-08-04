@@ -30,23 +30,17 @@ namespace Hosting
         public override Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("start");
-            return base.StartAsync(cancellationToken);
+            return base.StartAsync(cancellationToken); //run ExecuteAsync()
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             try
             {
-                int count = 0;
-
                 while (!stoppingToken.IsCancellationRequested)
                 {
                     _logger.LogInformation("run..");
 
-                    if (count++ == 3)
-                    {
-                        _lifetime.StopApplication();
-                    }
                     await Task.Delay(500, stoppingToken);
                 }
             }
@@ -55,12 +49,6 @@ namespace Hosting
             {
                 _logger.LogError(ex, ex.Message);
             }
-        }
-
-        public override Task StopAsync(CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("stop");
-            return base.StopAsync(cancellationToken);
         }
     }
 }
