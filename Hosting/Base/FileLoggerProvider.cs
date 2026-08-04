@@ -9,24 +9,34 @@ namespace Hosting.Base
 {
     internal class FileLoggerProvider : ILoggerProvider, ISupportExternalScope, IEntrySink
     {
-        private readonly string _filePath;
+        private readonly string _folderPath;
         private readonly object _lock = new();
         private IExternalScopeProvider? _scopeProvider;
+        private DateTime _currentDate;
+        private string _filePath;
 
-        public FileLoggerProvider(string filePath)
+        public FileLoggerProvider(string folderPath)
         {
-            _filePath = filePath;
-            var dir = Path.GetDirectoryName(_filePath);
-            if (!string.IsNullOrEmpty(dir))
-            {
-                Directory.CreateDirectory(dir);
-            }
+            _folderPath = folderPath;
+            Directory.CreateDirectory(_folderPath);
+
+            _currentDate = DateTime.Now.Date;
+            _filePath = GetFilePath(_currentDate);
         }
+
+        private string GetFilePath(DateTime date) => Path.Combine(_folderPath, $"{date:yyyy-MM-dd}.txt");
 
         public void Add(LogEntry entry)
         {
             lock (_lock)
             {
+                var today = DateTime.Now.Date;
+                if (today != _currentDate)
+                {
+                    _currentDate = today;
+                    _filePath = GetFilePath(_currentDate);
+                }
+
                 File.AppendAllText(_filePath, entry.ToString());
             }
         }

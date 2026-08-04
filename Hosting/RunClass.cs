@@ -1,5 +1,6 @@
 ﻿using Hosting.Base;
 using Hosting.Model;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,16 +12,20 @@ namespace Hosting
 {
     internal class RunClass : BackgroundService
     {
-        private readonly SingletonClass _c;
+        private readonly SingletonClass _c1;
+        private readonly SingletonClass _c2;
         private readonly TransientClass _t;
         private readonly ObservableCollection<LogEntry> _logs;
         private readonly ILogger<RunClass> _logger;
         private readonly IHostApplicationLifetime _lifetime;
 
-        public RunClass(SingletonClass c1, TransientClass c2, ViewLoggerProvider vp, ILogger<RunClass> logger, IHostApplicationLifetime lt)
+        public RunClass(TransientClass t2, ViewLoggerProvider vp, ILogger<RunClass> logger, IHostApplicationLifetime lt,
+            [FromKeyedServices("key1")] SingletonClass c1,
+            [FromKeyedServices("key2")] SingletonClass c2)
         {
-            _c = c1;
-            _t = c2;
+            _c1 = c1;
+            _c2 = c2;
+            _t = t2;
 
             _logs = vp.Logs;
             _logger = logger;
@@ -39,9 +44,10 @@ namespace Hosting
             {
                 while (!stoppingToken.IsCancellationRequested)
                 {
-                    _logger.LogInformation("run..");
-
-                    await Task.Delay(500, stoppingToken);
+                    //_logger.LogInformation("run..");
+                    _c1.Print();
+                    _c2.Print();
+                    await Task.Delay(1000, stoppingToken);
                 }
             }
             catch (OperationCanceledException) { }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,17 +11,25 @@ namespace Hosting
         [LoggerMessage(EventId = 1, Level = LogLevel.Information, Message = "high speed log={data}")]
         public static partial void Run(ILogger logger, string data);
 
-        private readonly ILogger<SingletonClass> _log;
         private readonly int _data = new Random().Next();
+        private readonly object _key;
+        private readonly ILogger<SingletonClass> _log;
         private readonly TransientClass _t;
 
-        public SingletonClass(ILogger<SingletonClass> log, TransientClass t)
+        public SingletonClass(ILogger<SingletonClass> log, TransientClass t, [ServiceKey] object key)
         {
             _log = log;
             _t = t;
+            _key = key;
         }
 
-        public void Print() => _log.LogInformation("data={_data}", _data);
+        public void Print()
+        {
+            using (_log.BeginScope(_key.ToString()!))
+            {
+                _log.LogInformation("data={_data}", _data);
+            }
+        }
 
         public void Scope()
         {
