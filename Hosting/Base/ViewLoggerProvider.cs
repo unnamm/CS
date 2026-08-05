@@ -14,13 +14,13 @@ namespace Hosting.Base
     {
         private Action<Action> _uiInvoker = action => action();
         private IExternalScopeProvider? _scopeProvider;
+        private readonly IOptionsMonitor<Appsettings> _options;
 
         public ObservableCollection<LogEntry> Logs { get; } = [];
-        public int MaxCount;
 
-        public ViewLoggerProvider(IOptions<Appsettings> options)
+        public ViewLoggerProvider(IOptionsMonitor<Appsettings> options)
         {
-            MaxCount = options.Value.LogMaxValue;
+            _options = options;
         }
 
         public void SetInvoker(Action<Action> invoker) => _uiInvoker = invoker;
@@ -30,7 +30,7 @@ namespace Hosting.Base
             _uiInvoker(() =>
             {
                 Logs.Add(log);
-                while (Logs.Count > MaxCount)
+                while (Logs.Count > _options.CurrentValue.LogMaxValue)
                     Logs.RemoveAt(0);
             });
         }

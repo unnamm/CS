@@ -11,35 +11,37 @@ namespace Hosting.Base
 {
     internal class FileLoggerProvider : ILoggerProvider, ISupportExternalScope, IEntrySink
     {
-        private readonly string _folderPath;
+        private readonly IOptionsMonitor<Appsettings> _options;
         private readonly object _lock = new();
         private IExternalScopeProvider? _scopeProvider;
         private DateTime _currentDate;
-        private string _filePath;
+        private string? _filePath;
 
-        public FileLoggerProvider(IOptions<Appsettings> option)
+        public FileLoggerProvider(IOptionsMonitor<Appsettings> option)
         {
-            _folderPath = option.Value.LogFolderPath!;
-            Directory.CreateDirectory(_folderPath);
-
-            _currentDate = DateTime.Now.Date;
-            _filePath = GetFilePath(_currentDate);
+            _options = option;
         }
 
-        private string GetFilePath(DateTime date) => Path.Combine(_folderPath, $"{date:yyyy-MM-dd}.txt");
+        private string GetFilePath()
+        {
+            var today = DateTime.Now.Date;
+            if (_filePath == null || today != _currentDate)
+            {
+                var folderPath = _options.CurrentValue.LogFolderPath!;
+                Directory.CreateDirectory(folderPath);
+
+                _currentDate = today;
+                _filePath = Path.Combine(folderPath, $"{today:yyyy-MM-dd}.txt");
+            }
+
+            return _filePath;
+        }
 
         public void Add(LogEntry entry)
         {
             lock (_lock)
             {
-                var today = DateTime.Now.Date;
-                if (today != _currentDate)
-                {
-                    _currentDate = today;
-                    _filePath = GetFilePath(_currentDate);
-                }
-
-                File.AppendAllText(_filePath, entry.ToString());
+                File.AppendAllText(GetFilePath(), entry.ToString());
             }
         }
 
