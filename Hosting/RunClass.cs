@@ -1,8 +1,10 @@
 ﻿using Hosting.Base;
+using Hosting.Config;
 using Hosting.Model;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,19 +19,21 @@ namespace Hosting
         private readonly TransientClass _t;
         private readonly ObservableCollection<LogEntry> _logs;
         private readonly ILogger<RunClass> _logger;
-        private readonly IHostApplicationLifetime _lifetime;
+        private readonly Appsettings _options;
 
-        public RunClass(TransientClass t2, ViewLoggerProvider vp, ILogger<RunClass> logger, IHostApplicationLifetime lt,
+        public RunClass(TransientClass t2, ViewLoggerProvider vp, ILogger<RunClass> logger, IOptions<Appsettings> options, IOptions<ConfigValue> option1,
             [FromKeyedServices("key1")] SingletonClass c1,
             [FromKeyedServices("key2")] SingletonClass c2)
         {
+            var v = option1.Value.Value1;
+
             _c1 = c1;
             _c2 = c2;
             _t = t2;
 
             _logs = vp.Logs;
             _logger = logger;
-            _lifetime = lt;
+            _options = options.Value;
         }
 
         public override Task StartAsync(CancellationToken cancellationToken)
@@ -44,10 +48,10 @@ namespace Hosting
             {
                 while (!stoppingToken.IsCancellationRequested)
                 {
-                    //_logger.LogInformation("run..");
                     _c1.Print();
                     _c2.Print();
-                    await Task.Delay(1000, stoppingToken);
+                    Console.WriteLine(_logs.Count);
+                    await Task.Delay(_options.IntervalMs, stoppingToken);
                 }
             }
             catch (OperationCanceledException) { }

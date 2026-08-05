@@ -1,4 +1,6 @@
 ﻿using Hosting.Base;
+using Hosting.Config;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -16,6 +18,9 @@ namespace Hosting
             //var viewProvider = new ViewLoggerProvider(action => System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(action)); //ui
 
             var builder = Host.CreateApplicationBuilder();
+            builder.Configuration
+                .AddJsonFile("Config/configValue.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("Config/appsettings.json", optional: false, reloadOnChange: true);
             builder.Logging
                 //.SetMinimumLevel(LogLevel.Trace) //default is info
                 //.AddDebug() //this is default
@@ -26,10 +31,11 @@ namespace Hosting
                 .AddSimpleConsole(o => o.IncludeScopes = true); //default is false
             builder.Services
                 .AddSingleton(viewProvider) //add ui log provider
-                //.AddSingleton<SingletonClass>()
                 .AddTransient<TransientClass>()
                 .AddKeyedSingleton<SingletonClass>("key1")
                 .AddKeyedSingleton<SingletonClass>("key2")
+                .Configure<Appsettings>(builder.Configuration.GetSection("RunOptions")) //appsettings.json -> RunOptions
+                .Configure<ConfigValue>(builder.Configuration.GetSection("ConfigValue")) //configValue.json -> ConfigValue
                 .AddHostedService<RunClass>();
             using var host = builder.Build();
             await host.RunAsync(); //run IHostedService.StartAsync()
