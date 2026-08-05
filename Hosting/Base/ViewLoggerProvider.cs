@@ -1,6 +1,8 @@
-﻿using Hosting.Interface;
+﻿using Hosting.Config;
+using Hosting.Interface;
 using Hosting.Model;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,24 +12,25 @@ namespace Hosting.Base
 {
     internal class ViewLoggerProvider : ILoggerProvider, ISupportExternalScope, IEntrySink
     {
-        private readonly Action<Action> _uiInvoker;
+        private Action<Action> _uiInvoker = action => action();
         private IExternalScopeProvider? _scopeProvider;
 
         public ObservableCollection<LogEntry> Logs { get; } = [];
         public int MaxCount;
 
-        public ViewLoggerProvider(Action<Action> invoker, int maxCount = 100)
+        public ViewLoggerProvider(IOptions<Appsettings> options)
         {
-            _uiInvoker = invoker;
-            MaxCount = maxCount;
+            MaxCount = options.Value.LogMaxValue;
         }
+
+        public void SetInvoker(Action<Action> invoker) => _uiInvoker = invoker;
 
         public void Add(LogEntry log)
         {
             _uiInvoker(() =>
             {
                 Logs.Add(log);
-                if (Logs.Count > MaxCount)
+                while (Logs.Count > MaxCount)
                     Logs.RemoveAt(0);
             });
         }

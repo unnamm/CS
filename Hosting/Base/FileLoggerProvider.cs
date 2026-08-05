@@ -1,6 +1,8 @@
-﻿using Hosting.Interface;
+﻿using Hosting.Config;
+using Hosting.Interface;
 using Hosting.Model;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,9 +17,9 @@ namespace Hosting.Base
         private DateTime _currentDate;
         private string _filePath;
 
-        public FileLoggerProvider(string folderPath)
+        public FileLoggerProvider(IOptions<Appsettings> option)
         {
-            _folderPath = folderPath;
+            _folderPath = option.Value.LogFolderPath!;
             Directory.CreateDirectory(_folderPath);
 
             _currentDate = DateTime.Now.Date;
