@@ -20,20 +20,21 @@ namespace Hosting
         private readonly ObservableCollection<LogEntry> _logs;
         private readonly ILogger<RunClass> _logger;
         private readonly IOptionsMonitor<Appsettings> _options;
+        private readonly IServiceScopeFactory _scopeFactory;
 
         public RunClass(TransientClass t2, ViewLoggerProvider vp, ILogger<RunClass> logger, IOptionsMonitor<Appsettings> options, IOptions<ConfigValue> option1,
             [FromKeyedServices("key1")] SingletonClass c1,
-            [FromKeyedServices("key2")] SingletonClass c2)
+            [FromKeyedServices("key2")] SingletonClass c2, IServiceScopeFactory scopeFactory)
         {
-            var v = option1.Value.Value1;
-
             _c1 = c1;
             _c2 = c2;
             _t = t2;
-
             _logs = vp.Logs;
             _logger = logger;
             _options = options;
+            _scopeFactory = scopeFactory;
+
+            _logger.LogInformation("ConfigValue.Value1 = {Value1}", option1.Value.Value1);
         }
 
         public override Task StartAsync(CancellationToken cancellationToken)
@@ -51,6 +52,13 @@ namespace Hosting
                     _c1.Print();
                     _c2.Print();
                     Console.WriteLine(_logs.Count);
+
+                    using (var scope = _scopeFactory.CreateScope())
+                    {
+                        scope.ServiceProvider.GetRequiredService<ScopeClass>().Print();
+                        scope.ServiceProvider.GetRequiredService<ScopeClass>().Print();
+                    }
+
                     await Task.Delay(_options.CurrentValue.IntervalMs, stoppingToken);
                 }
             }

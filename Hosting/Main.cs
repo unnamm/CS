@@ -37,6 +37,7 @@ namespace Hosting
                 .AddTransient<TransientClass>()
                 .AddKeyedSingleton<SingletonClass>("key1")
                 .AddKeyedSingleton<SingletonClass>("key2")
+                .AddScoped<ScopeClass>()
                 .AddHostedService<RunClass>();
 
             using var host = builder.Build();
