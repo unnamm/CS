@@ -19,9 +19,9 @@ namespace Hosting
         private readonly TransientClass _t;
         private readonly ObservableCollection<LogEntry> _logs;
         private readonly ILogger<RunClass> _logger;
-        private readonly Appsettings _options;
+        private readonly IOptionsMonitor<Appsettings> _options;
 
-        public RunClass(TransientClass t2, ViewLoggerProvider vp, ILogger<RunClass> logger, IOptions<Appsettings> options, IOptions<ConfigValue> option1,
+        public RunClass(TransientClass t2, ViewLoggerProvider vp, ILogger<RunClass> logger, IOptionsMonitor<Appsettings> options, IOptions<ConfigValue> option1,
             [FromKeyedServices("key1")] SingletonClass c1,
             [FromKeyedServices("key2")] SingletonClass c2)
         {
@@ -33,7 +33,7 @@ namespace Hosting
 
             _logs = vp.Logs;
             _logger = logger;
-            _options = options.Value;
+            _options = options;
         }
 
         public override Task StartAsync(CancellationToken cancellationToken)
@@ -51,7 +51,7 @@ namespace Hosting
                     _c1.Print();
                     _c2.Print();
                     Console.WriteLine(_logs.Count);
-                    await Task.Delay(_options.IntervalMs, stoppingToken);
+                    await Task.Delay(_options.CurrentValue.IntervalMs, stoppingToken);
                 }
             }
             catch (OperationCanceledException) { }
