@@ -51,7 +51,7 @@ namespace Hosting
                 {
                     _c1.Print();
                     _c2.Print();
-                    Console.WriteLine(_logs.Count);
+                    _logger.LogInformation("_logs count={_logs.Count}", _logs.Count);
 
                     using (var scope = _scopeFactory.CreateScope())
                     {

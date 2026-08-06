@@ -21,11 +21,15 @@ namespace Hosting
                 .AddJsonFile("Config/appsettings.json", optional: false, reloadOnChange: true);
 
             builder.Logging
-                //.SetMinimumLevel(LogLevel.Trace) //default is info
+                //.SetMinimumLevel(LogLevel.Trace) //set all filter
                 //.AddDebug() //this is default
                 //.AddConsole() //this is default
-                //.AddFilter("Microsoft.Hosting.Lifetime", LogLevel.Warning) //default is info
-                .AddSimpleConsole(o => o.IncludeScopes = true); //show scope to console
+                //.AddFilter("Microsoft.Hosting.Lifetime", LogLevel.Warning) //category filter
+                //.AddFilter<FileLoggerProvider>("", LogLevel.Information) //file
+                //.AddFilter<ViewLoggerProvider>("", LogLevel.Information) //view
+                //.AddFilter<ConsoleLoggerProvider>("", LogLevel.Warning) //console
+                .AddSimpleConsole(o => o.IncludeScopes = true) //show scope to console
+                ;
 
             builder.Services
                 .AddSingleton<ViewLoggerProvider>()
